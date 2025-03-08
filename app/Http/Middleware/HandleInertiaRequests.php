@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
+use Common\App\Enums\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -35,10 +38,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
-                ...(new Ziggy)->toArray(),
+            'ziggy' => fn() => [
+                ...(new Ziggy())->toArray(),
                 'location' => $request->url(),
             ],
+            'localeOptions' => Locale::toOptions(),
         ];
     }
 }

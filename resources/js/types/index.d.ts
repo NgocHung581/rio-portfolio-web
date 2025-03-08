@@ -13,6 +13,12 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     };
     ziggy: Config & { location: string };
+    localeOptions: Option<string>[];
 };
 
 export type PropsWithChildren<T = unknown> = T & { children: ReactNode };
+
+export type Options<TValue = number> = {
+    label: string;
+    value: TValue;
+};
