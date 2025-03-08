@@ -2,5 +2,7 @@
     "home": "Home",
     "english": "English",
     "vietnamese": "Vietnamese",
-    "language": "Language"
+    "language": "Language",
+    "dark": "Dark",
+    "light": "Light"
 }

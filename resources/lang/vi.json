@@ -2,5 +2,7 @@
     "home": "Trang chủ",
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "dark": "Tối",
+    "light": "Sang"
 }

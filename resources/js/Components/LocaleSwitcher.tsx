@@ -52,7 +52,6 @@ const LocaleSwitcher = () => {
                 open={openMenu}
                 onClose={handleCloseMenu}
                 disableScrollLock
-                slotProps={{ paper: { sx: { mt: 4 } } }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
