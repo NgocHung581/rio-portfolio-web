@@ -21,7 +21,12 @@ const BannerSection = () => {
                 <Swiper loop autoplay spaceBetween={16} slidesPerView={1} modules={[Autoplay]}>
                     {albumMediaItems.map((albumMediaItem) => (
                         <SwiperSlide key={albumMediaItem.id}>
-                            <Box height={1} sx={{ img: { width: 1, height: 1, objectFit: 'cover' } }}>
+                            <Box
+                                component={Link}
+                                href={route('albums.show', { album: albumMediaItem.album_id })}
+                                height={1}
+                                sx={{ img: { width: 1, height: 1, objectFit: 'cover' } }}
+                            >
                                 <Image src={albumMediaItem.url} />
                             </Box>
                         </SwiperSlide>

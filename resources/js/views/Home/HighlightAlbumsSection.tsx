@@ -2,7 +2,7 @@ import Image from '@/Components/Image';
 import { HomePageProps } from '@/Pages/Home';
 import { PageProps, PaginatedData } from '@/types';
 import { Album } from '@/types/album';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Backdrop from '@mui/material/Backdrop';
 import backdropClasses from '@mui/material/Backdrop/backdropClasses';
@@ -69,7 +69,13 @@ const HighlightAlbumsSection = () => {
                         >
                             <Image src={album.thumbnail.url} />
                             <Backdrop open sx={{ position: 'absolute', zIndex: -1 }}>
-                                <Button startIcon={<VisibilityOutlinedIcon />}>{t('view_project')}</Button>
+                                <Button
+                                    LinkComponent={Link}
+                                    href={route('albums.show', album)}
+                                    startIcon={<VisibilityOutlinedIcon />}
+                                >
+                                    {t('view_project')}
+                                </Button>
                             </Backdrop>
                         </Box>
                     </Grid>
