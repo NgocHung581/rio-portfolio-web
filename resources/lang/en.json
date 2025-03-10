@@ -4,5 +4,15 @@
     "vietnamese": "Vietnamese",
     "language": "Language",
     "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+    "projects": "Projects",
+    "about": "About",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "social": "Social",
+    "pages": "Pages",
+    "settings": "Settings",
+    "mode": "Mode",
+    "view_project": "View project"
 }
