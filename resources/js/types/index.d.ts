@@ -22,3 +22,23 @@ export type Options<TValue = number> = {
     label: string;
     value: TValue;
 };
+
+type PaginatedDataLinks = {
+    first: string;
+    last: string;
+};
+
+type PaginatedDataMeta = {
+    current_page: number;
+    from: number;
+    last_page: number;
+    per_page: number;
+    to: number;
+    total: number;
+};
+
+export type PaginatedData<TData> = {
+    data: TData[];
+    links: PaginatedDataLinks;
+    meta: PaginatedDataMeta;
+};
