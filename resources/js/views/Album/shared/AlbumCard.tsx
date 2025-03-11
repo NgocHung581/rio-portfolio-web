@@ -32,7 +32,7 @@ const AlbumCard = ({ album }: Props) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <Image src={album.thumbnail.url} />
+            <Image src={album.thumbnail.url} alt={album.name} />
             <Backdrop open={isHovering} mountOnEnter unmountOnExit sx={{ position: 'absolute' }}>
                 <Button LinkComponent={Link} href={route('albums.show', album)} startIcon={<VisibilityOutlinedIcon />}>
                     {t('view_project')}
