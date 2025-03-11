@@ -3,15 +3,12 @@ import laravel from 'laravel-vite-plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [
-    laravel({
-      input: 'resources/js/app.tsx',
-      ssr: 'resources/js/ssr.tsx',
-      refresh: true,
-    }),
-    react(),
-  ],
-  server: {
-    port: 5174,
-  },
+    plugins: [
+        laravel({
+            input: 'resources/js/app.tsx',
+            ssr: 'resources/js/ssr.tsx',
+            refresh: true,
+        }),
+        react(),
+    ],
 });
