@@ -19,20 +19,20 @@ const HighlightAlbumsSection = () => {
     const pageProps = usePage<PageProps<HomePageProps>>().props;
 
     const [highlightAlbums, setHighlightAlbums] = useState<PaginatedData<Album>>(pageProps.highlightAlbums);
-    const [perPage, setPerPage] = useState(pageProps.highlightAlbumsPerPage);
-    const [isFetchingHighlightAlbums, setIsFetchingHighlightAlbums] = useState(false);
+    const [page, setPage] = useState(pageProps.highlightAlbums.meta.current_page);
+    const [isFetching, setIsFetching] = useState(false);
 
     const handleViewMore = async () => {
-        setIsFetchingHighlightAlbums(true);
+        setIsFetching(true);
 
-        const newPerPage = perPage + pageProps.highlightAlbumsPerPage;
+        const newPage = page + 1;
         const res = await window.axios.get<PaginatedData<Album>>(
-            route('api.listHighlightAlbums', { _query: { per_page: newPerPage } }),
+            route('api.listHighlightAlbums', { _query: { page: newPage } }),
         );
 
-        setIsFetchingHighlightAlbums(false);
-        setHighlightAlbums(res.data);
-        setPerPage(newPerPage);
+        setIsFetching(false);
+        setHighlightAlbums((prev) => ({ ...prev, ...res.data, data: [...prev.data, ...res.data.data] }));
+        setPage(newPage);
     };
 
     return (
@@ -83,7 +83,7 @@ const HighlightAlbumsSection = () => {
             </Grid>
             {highlightAlbums.meta.current_page !== highlightAlbums.meta.last_page && (
                 <Box textAlign="center">
-                    <Button loading={isFetchingHighlightAlbums} onClick={handleViewMore}>
+                    <Button loading={isFetching} onClick={handleViewMore}>
                         {t('view_more')}
                     </Button>
                 </Box>

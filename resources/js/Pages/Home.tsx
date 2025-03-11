@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 export type HomePageProps = {
     highlightAlbums: PaginatedData<Album>;
     albumMediaItems: AlbumMediaItem[];
-    highlightAlbumsPerPage: number;
 };
 
 const HomePage = () => {

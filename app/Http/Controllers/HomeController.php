@@ -25,13 +25,11 @@ class HomeController extends Controller
         ListHighlightAlbumsService $listHighlightAlbumsService
     ): Response|ResponseFactory {
         $albumMediaItems = $listAlbumMediaItemsOnBannerService->execute();
-        $highlightAlbumsPerPage = PerPage::DEFAULT;
-        $highlightAlbums = $listHighlightAlbumsService->execute($highlightAlbumsPerPage);
+        $highlightAlbums = $listHighlightAlbumsService->execute(PerPage::DEFAULT);
 
         return inertia('Home', [
             'highlightAlbums' => AlbumResource::collection($highlightAlbums),
             'albumMediaItems' => $albumMediaItems->map(fn($albumMediaItem) => new AlbumMediaItemResource($albumMediaItem)),
-            'highlightAlbumsPerPage' => $highlightAlbumsPerPage,
         ]);
     }
 }
