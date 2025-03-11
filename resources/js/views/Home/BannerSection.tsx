@@ -41,10 +41,20 @@ const BannerSection = () => {
                 gap={5}
                 divider={<ArrowForwardIosIcon fontSize="small" />}
             >
-                <Typography component={Link} href="" variant="h5" sx={{ ':hover': { color: 'primary.main' } }}>
+                <Typography
+                    component={Link}
+                    href={route('albums.index')}
+                    variant="h5"
+                    sx={{ ':hover': { color: 'primary.main' } }}
+                >
                     {t('projects')}
                 </Typography>
-                <Typography component={Link} href="" variant="h5" sx={{ ':hover': { color: 'primary.main' } }}>
+                <Typography
+                    component={Link}
+                    href={route('about')}
+                    variant="h5"
+                    sx={{ ':hover': { color: 'primary.main' } }}
+                >
                     {t('about')}
                 </Typography>
             </Stack>

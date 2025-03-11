@@ -1,9 +1,11 @@
 import FixedSidebarLayout from '@/Layouts/FixedSidebarLayout';
-import { PaginatedData } from '@/types';
+import { PageProps, PaginatedData } from '@/types';
 import { Album } from '@/types/album';
 import { AlbumMediaItem } from '@/types/albumMediaItem';
+import AlbumList from '@/views/Album/shared/AlbumList';
 import BannerSection from '@/views/Home/BannerSection';
-import HighlightAlbumsSection from '@/views/Home/HighlightAlbumsSection';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 
 export type HomePageProps = {
@@ -11,12 +13,32 @@ export type HomePageProps = {
     albumMediaItems: AlbumMediaItem[];
 };
 
-const HomePage = () => {
+const HomePage = ({ highlightAlbums }: PageProps<HomePageProps>) => {
     const { t } = useTranslation();
 
     return (
         <FixedSidebarLayout header={<BannerSection />} title={t('home')}>
-            <HighlightAlbumsSection />
+            <Stack component="section" spacing={6}>
+                <Typography
+                    variant="h2"
+                    textAlign="center"
+                    sx={{
+                        '::after': {
+                            content: '""',
+                            display: 'block',
+                            width: 50,
+                            height: 4,
+                            bgcolor: 'primary.main',
+                            mt: 1,
+                            mx: 'auto',
+                            borderRadius: 99,
+                        },
+                    }}
+                >
+                    {t('projects')}
+                </Typography>
+                <AlbumList albums={highlightAlbums} fetchMoreAlbumsRouteName="api.listHighlightAlbums" />
+            </Stack>
         </FixedSidebarLayout>
     );
 };

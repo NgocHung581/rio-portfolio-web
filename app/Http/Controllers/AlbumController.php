@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Album\ListAlbumsRequest;
 use App\Http\Requests\Album\ListHighlightAlbumsRequest;
 use App\Http\Resources\AlbumResource;
+use App\Services\Album\ListAlbumsService;
 use App\Services\Album\ListHighlightAlbumsService;
+use Common\App\Constants\PerPage;
 use Illuminate\Http\JsonResponse;
 use Inertia\Response;
 use Inertia\ResponseFactory;
@@ -19,9 +22,25 @@ class AlbumController extends Controller
     /**
      * Display the album list view.
      */
-    public function index(): Response|ResponseFactory
+    public function index(ListAlbumsService $service): Response|ResponseFactory
     {
-        return inertia('Album/List');
+        $albums = $service->execute(PerPage::DEFAULT);
+
+        return inertia('Album/List', [
+            'albums' => AlbumResource::collection($albums),
+        ]);
+    }
+
+    /**
+     * List albums for API.
+     */
+    public function listAlbumsApi(
+        ListAlbumsRequest $request,
+        ListAlbumsService $service
+    ): JsonResponse {
+        $albums = $service->execute($request->per_page);
+
+        return AlbumResource::collection($albums)->response();
     }
 
     /**
