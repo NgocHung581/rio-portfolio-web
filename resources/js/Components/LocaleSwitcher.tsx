@@ -61,7 +61,7 @@ const LocaleSwitcher = () => {
                         selected={option.value === currentLocale}
                         onClick={handleSetLocale(option.value)}
                     >
-                        {t(option.label)}
+                        {option.label}
                     </MenuItem>
                 ))}
             </Menu>
