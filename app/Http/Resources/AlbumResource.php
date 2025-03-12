@@ -27,6 +27,7 @@ class AlbumResource extends JsonResource
             'name' => $this->{"name_{$locale}"},
             'description' => $this->{"description_{$locale}"},
             'summary' => $this->{"summary_{$locale}"},
+            'slug' => $this->slug,
             'is_highlight' => $this->is_highlight,
             'thumbnail' => new MediaFileResource($this->thumbnail),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

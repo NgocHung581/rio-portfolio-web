@@ -13,17 +13,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 const BannerSection = () => {
     const { t } = useTranslation();
-    const { albumMediaItems } = usePage<PageProps<HomePageProps>>().props;
+    const { albumMediaItemsOnBanner } = usePage<PageProps<HomePageProps>>().props;
 
     return (
         <Box component="section" borderBottom={4} borderColor="divider">
             <Box height="calc(100vh - 64px)" sx={{ '.swiper': { height: 1 } }}>
                 <Swiper loop autoplay spaceBetween={16} slidesPerView={1} modules={[Autoplay]}>
-                    {albumMediaItems.map((albumMediaItem) => (
+                    {albumMediaItemsOnBanner.map((albumMediaItem) => (
                         <SwiperSlide key={albumMediaItem.id}>
                             <Box
                                 component={Link}
-                                href={route('albums.show', { album: albumMediaItem.album_id })}
+                                href={route('albums.show', albumMediaItem.album)}
                                 height={1}
                                 sx={{ img: { width: 1, height: 1, objectFit: 'cover' } }}
                             >

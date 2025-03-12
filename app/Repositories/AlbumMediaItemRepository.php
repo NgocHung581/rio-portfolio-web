@@ -19,7 +19,7 @@ class AlbumMediaItemRepository extends CommonAlbumMediaItemRepository
     public function getAlbumMediaItemsOnBanner(): Collection
     {
         return AlbumMediaItem::query()
-            ->with('mediaFile')
+            ->with(['album.thumbnail', 'mediaFile'])
             ->where('is_displayed_on_banner', true)
             ->whereRelation('album', 'deleted_at', null)
             ->get();

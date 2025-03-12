@@ -6,6 +6,7 @@ export type Album = {
     name: string;
     description: string;
     summary: string;
+    slug: string;
     is_highlight: boolean;
     thumbnail: MediaFile;
     created_at: string;

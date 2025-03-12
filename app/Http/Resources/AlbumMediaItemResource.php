@@ -21,7 +21,7 @@ class AlbumMediaItemResource extends JsonResource
     {
         $data = [
             'id' => $this->id,
-            'album_id' => $this->album_id,
+            'album' => new AlbumResource($this->album),
             'type' => $this->mediaFile->type,
             'url' => $this->mediaFile->url,
             'column_span' => $this->column_span,

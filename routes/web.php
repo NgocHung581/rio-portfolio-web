@@ -17,7 +17,7 @@ Route::put('/locale', LocaleController::class)->name('locale.set');
 Route::prefix('projects')->controller(AlbumController::class)->name('albums.')
     ->group(function(): void {
         Route::get('/', 'index')->name('index');
-        Route::get('/{album}', 'show')->name('show');
+        Route::get('/{album:slug}', 'show')->name('show');
     });
 
 Route::prefix('api')->name('api.')->group(function(): void {
