@@ -34,7 +34,7 @@ const Sidebar = () => {
                 <Box height={200} display="flex" alignItems="center" justifyContent="center">
                     <Box
                         component="img"
-                        src="storage/images/avatars/me.jpg"
+                        src="/storage/images/avatars/me.jpg"
                         height={1}
                         sx={{ aspectRatio: 3 / 4, objectFit: 'cover' }}
                     />
@@ -70,10 +70,10 @@ const Sidebar = () => {
                     <Grid size={{ lg: 9 }}>
                         <Stack direction="row" alignItems="center" spacing={2}>
                             <MuiLink href="" target="_blank">
-                                <Box component="img" src="storage/images/logos/instagram.png" width={28} height={28} />
+                                <Box component="img" src="/storage/images/logos/instagram.png" width={28} height={28} />
                             </MuiLink>
                             <MuiLink href="" target="_blank">
-                                <Box component="img" src="storage/images/logos/behance.png" width={28} height={28} />
+                                <Box component="img" src="/storage/images/logos/behance.png" width={28} height={28} />
                             </MuiLink>
                         </Stack>
                     </Grid>

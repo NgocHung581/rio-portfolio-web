@@ -6,9 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Album\ListAlbumsRequest;
 use App\Http\Requests\Album\ListHighlightAlbumsRequest;
+use App\Http\Resources\AlbumMediaItemResource;
 use App\Http\Resources\AlbumResource;
+use App\Models\Album;
 use App\Services\Album\ListAlbumsService;
 use App\Services\Album\ListHighlightAlbumsService;
+use App\Services\AlbumMediaItem\ListAlbumMediaItemsService;
 use Common\App\Constants\PerPage;
 use Illuminate\Http\JsonResponse;
 use Inertia\Response;
@@ -46,9 +49,14 @@ class AlbumController extends Controller
     /**
      * Display the album detail view.
      */
-    public function show(): Response|ResponseFactory
+    public function show(Album $album, ListAlbumMediaItemsService $listAlbumMediaItemsService): Response|ResponseFactory
     {
-        return inertia('Album/Detail');
+        $albumMediaItems = $listAlbumMediaItemsService->execute($album->id, PerPage::DEFAULT);
+
+        return inertia('Album/Detail', [
+            'album' => new AlbumResource($album),
+            'albumMediaItems' => AlbumMediaItemResource::collection($albumMediaItems),
+        ]);
     }
 
     /**

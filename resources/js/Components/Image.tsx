@@ -1,28 +1,35 @@
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Fab from '@mui/material/Fab';
 import Paper from '@mui/material/Paper';
+import { SxProps, Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react';
+import ReactPlayer from 'react-player';
 
 type Props = {
     src: string;
     alt?: string;
+    imageSx?: SxProps<Theme>;
+    containerSx?: SxProps<Theme>;
+    isVideo?: boolean;
+    videoThumbnailUrl?: string;
 };
 
-const Image = ({ src, alt }: Props) => {
+const Image = ({ src, alt, containerSx, imageSx, isVideo, videoThumbnailUrl }: Props) => {
     const imgRef = useRef<HTMLImageElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const [openMenu, setOpenMenu] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+    const [showVideoThumbnail, setShowVideoThumbnail] = useState(isVideo);
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (!imgRef.current?.contains(e.target as Node) && !menuRef.current?.contains(e.target as Node)) {
                 setOpenMenu(false);
-            }
-
-            if (menuRef.current?.contains(e.target as Node)) {
+            } else {
                 e.preventDefault();
             }
         };
@@ -52,9 +59,51 @@ const Image = ({ src, alt }: Props) => {
         setMenuPosition({ top: 0, left: 0 });
     };
 
+    const handlePlayVideo = () => {
+        setShowVideoThumbnail(false);
+    };
+
     return (
-        <Box height={1} position="relative">
-            <Box component="img" ref={imgRef} src={src} alt={alt} onContextMenu={handleOpenContextMenu} />
+        <Box height={1} position="relative" sx={containerSx}>
+            {isVideo ? (
+                <Box
+                    ref={imgRef}
+                    height={1}
+                    onContextMenu={handleOpenContextMenu}
+                    sx={{
+                        ...(showVideoThumbnail && {
+                            backgroundImage: `url(${videoThumbnailUrl})`,
+                            backgroundSize: 'cover',
+                        }),
+                    }}
+                >
+                    <ReactPlayer
+                        url={src}
+                        stopOnUnmount
+                        controls
+                        loop
+                        width="100%"
+                        height="100%"
+                        light
+                        playIcon={
+                            <Fab color="primary" sx={{ zIndex: 0 }}>
+                                <PlayArrowIcon fontSize="large" />
+                            </Fab>
+                        }
+                        onClickPreview={handlePlayVideo}
+                    />
+                </Box>
+            ) : (
+                <Box
+                    component="img"
+                    ref={imgRef}
+                    src={src}
+                    alt={alt}
+                    onContextMenu={handleOpenContextMenu}
+                    sx={imageSx}
+                />
+            )}
+
             {openMenu && (
                 <ClickAwayListener onClickAway={handleCloseContextMenu}>
                     <Paper

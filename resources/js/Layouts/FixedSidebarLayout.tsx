@@ -3,20 +3,22 @@ import { Head } from '@inertiajs/react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
-import { Fragment, ReactNode } from 'react';
+import Stack from '@mui/material/Stack';
+import { ReactNode } from 'react';
 import Sidebar from './components/fixed-sidebar/Sidebar';
 
 type Props = {
     header?: ReactNode;
     title?: string;
+    footer?: ReactNode;
 };
 
-const FixedSidebarLayout = ({ header, children, title }: PropsWithChildren<Props>) => {
+const FixedSidebarLayout = ({ header, children, title, footer }: PropsWithChildren<Props>) => {
     return (
-        <Fragment>
+        <Stack minHeight="100vh">
             <Head title={title} />
             {header}
-            <Box p={10}>
+            <Box flex={1} p={10}>
                 <Grid container spacing={6}>
                     <Grid size={{ md: 3 }}>
                         <Sidebar />
@@ -28,7 +30,8 @@ const FixedSidebarLayout = ({ header, children, title }: PropsWithChildren<Props
                     </Grid>
                 </Grid>
             </Box>
-        </Fragment>
+            {footer}
+        </Stack>
     );
 };
 

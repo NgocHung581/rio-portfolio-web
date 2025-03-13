@@ -19,22 +19,7 @@ const HomePage = ({ highlightAlbums }: PageProps<HomePageProps>) => {
     return (
         <FixedSidebarLayout header={<BannerSection />} title={t('home')}>
             <Stack component="section" spacing={6}>
-                <Typography
-                    variant="h2"
-                    textAlign="center"
-                    sx={{
-                        '::after': {
-                            content: '""',
-                            display: 'block',
-                            width: 50,
-                            height: 4,
-                            bgcolor: 'primary.main',
-                            mt: 1,
-                            mx: 'auto',
-                            borderRadius: 99,
-                        },
-                    }}
-                >
+                <Typography variant="h2" textAlign="center" className="title-border-bottom">
                     {t('projects')}
                 </Typography>
                 <AlbumList albums={highlightAlbums} fetchMoreAlbumsRouteName="api.listHighlightAlbums" />

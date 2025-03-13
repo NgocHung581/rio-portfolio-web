@@ -16,22 +16,7 @@ const AlbumListPage = ({ albums }: PageProps<AlbumListPageProps>) => {
     return (
         <FixedSidebarLayout title={t('projects')}>
             <Stack spacing={6}>
-                <Typography
-                    variant="h1"
-                    textAlign="center"
-                    sx={{
-                        '::after': {
-                            content: '""',
-                            display: 'block',
-                            width: 50,
-                            height: 4,
-                            bgcolor: 'primary.main',
-                            mt: 1,
-                            mx: 'auto',
-                            borderRadius: 99,
-                        },
-                    }}
-                >
+                <Typography variant="h1" textAlign="center" className="title-border-bottom">
                     {t('projects')}
                 </Typography>
                 <AlbumList albums={albums} fetchMoreAlbumsRouteName="api.listAlbums" />
