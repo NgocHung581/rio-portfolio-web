@@ -35,7 +35,7 @@ const AlbumList = ({ albums: initAlbums, fetchMoreAlbumsRouteName }: Props) => {
 
     return (
         <Stack spacing={6}>
-            <Grid container spacing={2}>
+            <Grid container spacing={5.5}>
                 {albums.data.map((album) => (
                     <Grid key={album.id} size={{ xs: 12, sm: 6, md: 4 }}>
                         <AlbumCard album={album} />
