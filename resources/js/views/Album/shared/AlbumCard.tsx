@@ -30,7 +30,7 @@ const AlbumCard = ({ album }: Props) => {
             <Image
                 src={album.thumbnail.url}
                 alt={album.name}
-                imageSx={{ aspectRatio: 4 / 5, width: 1, objectFit: 'cover' }}
+                imageSx={{ aspectRatio: album.thumbnail.aspect_ratio, width: 1, objectFit: 'cover' }}
             />
             <Backdrop open={isHovering} mountOnEnter unmountOnExit sx={{ position: 'absolute' }}>
                 <Button LinkComponent={Link} href={route('albums.show', album)} startIcon={<VisibilityOutlinedIcon />}>
