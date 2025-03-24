@@ -4,17 +4,16 @@
     "vietnamese": "Tiếng Việt",
     "language": "Ngôn ngữ",
     "dark": "Tối",
-    "light": "Sang",
+    "light": "Sáng",
     "projects": "Các dự án",
     "about": "Giới thiệu",
     "name": "Tên",
     "phone": "Điện thoại",
     "email": "Email",
-    "social": "Mạng xã hôi",
-    "pages": "Các trang",
-    "settings": "Các cài đặt",
     "mode": "Chế độ",
     "view_project": "Xem dự án",
-    "view_more": "View thêm",
-    "project": "Dự án"
+    "view_more": "Xem thêm",
+    "project": "Dự án",
+    "setting": "Cài đặt",
+    "read_more": "Đọc thêm"
 }

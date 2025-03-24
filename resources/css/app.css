@@ -4,11 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html[class]:root,
-[class].dark {
-    /* [Palette]: Background */
-    --mui-palette-background-lighterMain: #fbeedd;
-
+html:root {
     /* [Palette]: Primary */
     --mui-palette-primary-main: #a85626;
     --mui-palette-primary-light: #b97751;
@@ -98,9 +94,6 @@ html[class]:root,
     --mui-palette-success-mainOpacity: rgb(var(--mui-palette-success-mainChannel) / 0.24);
     --mui-palette-success-darkOpacity: rgb(var(--mui-palette-success-mainChannel) / 0.32);
     --mui-palette-success-darkerOpacity: rgb(var(--mui-palette-success-mainChannel) / 0.38);
-
-    /* [Palette]: Switch */
-    --mui-palette-Switch-primaryDisabledColor: var(--mui-palette-primary-light);
 }
 
 html.light:root {
@@ -109,26 +102,10 @@ html.light:root {
     --mui-palette-background-defaultChannel: 255 255 255;
 }
 
-html.dark:root,
-[class].dark {
+html.dark:root {
     /* [Palette]: Background */
-    --mui-palette-background-default: #282a42;
-    --mui-palette-background-paper: #30334e;
-    --mui-palette-background-defaultChannel: 40 42 66;
-    --mui-palette-background-paperChannel: 48 51 78;
-
-    /* [Palette]: Text */
-    --mui-palette-text-primary: #fff;
-    --mui-palette-text-secondary: rgba(255, 255, 255, 0.7);
-
-    /* [Palette]: Action */
-    --mui-palette-action-hover: rgba(255, 255, 255, 0.08);
-    --mui-palette-action-selected: rgba(255, 255, 255, 0.16);
-    --mui-palette-action-selectedChannel: 255, 255, 255;
-
-    /* [Palette]: Divider */
-    --mui-palette-divider: rgba(255, 255, 255, 0.12);
-    --mui-palette-dividerChannel: 255 255 255;
+    --mui-palette-background-default: #0f1214;
+    --mui-palette-background-defaultChannel: 15 18 20;
 }
 
 * {

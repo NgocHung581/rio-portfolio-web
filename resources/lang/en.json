@@ -10,11 +10,10 @@
     "name": "Name",
     "phone": "Phone",
     "email": "Email",
-    "social": "Social",
-    "pages": "Pages",
-    "settings": "Settings",
     "mode": "Mode",
     "view_project": "View project",
     "view_more": "View more",
-    "project": "Project"
+    "project": "Project",
+    "setting": "Setting",
+    "read_more": "Read more"
 }
