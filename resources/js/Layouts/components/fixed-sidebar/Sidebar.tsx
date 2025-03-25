@@ -34,8 +34,12 @@ const Sidebar = () => {
         const handleScroll = () => {
             const rect = sidebarRef.current!.getBoundingClientRect();
 
-            if (showLogo !== rect.top <= STICKY_TOP) {
-                setShowLogo(rect.top <= STICKY_TOP);
+            if (window.scrollY > 0) {
+                if (showLogo !== rect.top <= STICKY_TOP) {
+                    setShowLogo(rect.top <= STICKY_TOP);
+                }
+            } else {
+                setShowLogo(false);
             }
         };
 

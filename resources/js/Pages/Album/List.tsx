@@ -1,7 +1,7 @@
 import FixedSidebarLayout from '@/Layouts/FixedSidebarLayout';
 import { PageProps, PaginatedData } from '@/types';
 import { Album } from '@/types/album';
-import AlbumList from '@/views/Album/shared/AlbumList';
+import PaginatedAlbums from '@/views/Album/list/PaginatedAlbums';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const AlbumListPage = ({ albums }: PageProps<AlbumListPageProps>) => {
                 <Typography variant="h1" textAlign="center" className="title-border-bottom">
                     {t('projects')}
                 </Typography>
-                <AlbumList albums={albums} fetchMoreAlbumsRouteName="api.listAlbums" />
+                <PaginatedAlbums albums={albums} fetchMoreAlbumsRouteName="api.listAlbums" />
             </Stack>
         </FixedSidebarLayout>
     );

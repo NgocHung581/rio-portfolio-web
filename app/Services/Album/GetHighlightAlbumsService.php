@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Services\Album;
 
 use App\Repositories\AlbumRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Retrieve all albums that are highlighted.
  */
-class ListHighlightAlbumsService
+class GetHighlightAlbumsService
 {
     public function __construct(private readonly AlbumRepository $albumRepository)
     {
     }
 
-    public function execute(int $perPage): LengthAwarePaginator
+    public function execute(): Collection
     {
-        return $this->albumRepository->findHighlightAlbums($perPage);
+        return $this->albumRepository->getHighlightAlbums();
     }
 }

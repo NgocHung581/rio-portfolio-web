@@ -22,7 +22,6 @@ Route::prefix('projects')->controller(AlbumController::class)->name('albums.')
 
 Route::prefix('api')->name('api.')->group(function(): void {
     Route::controller(AlbumController::class)->group(function(): void {
-        Route::get('/highlight-projects', 'listHighlightAlbumsApi')->name('listHighlightAlbums');
         Route::get('/projects', 'listAlbumsApi')->name('listAlbums');
     });
 });

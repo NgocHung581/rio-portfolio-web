@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Album\ListAlbumsRequest;
-use App\Http\Requests\Album\ListHighlightAlbumsRequest;
 use App\Http\Resources\AlbumMediaItemResource;
 use App\Http\Resources\AlbumResource;
 use App\Models\Album;
 use App\Services\Album\ListAlbumsService;
-use App\Services\Album\ListHighlightAlbumsService;
 use App\Services\AlbumMediaItem\ListAlbumMediaItemsService;
 use Common\App\Constants\PerPage;
 use Illuminate\Http\JsonResponse;
@@ -57,17 +55,5 @@ class AlbumController extends Controller
             'album' => new AlbumResource($album),
             'albumMediaItems' => AlbumMediaItemResource::collection($albumMediaItems),
         ]);
-    }
-
-    /**
-     * List highlighted albums for API.
-     */
-    public function listHighlightAlbumsApi(
-        ListHighlightAlbumsRequest $request,
-        ListHighlightAlbumsService $listHighlightAlbumsService
-    ): JsonResponse {
-        $highlightAlbums = $listHighlightAlbumsService->execute($request->per_page);
-
-        return AlbumResource::collection($highlightAlbums)->response();
     }
 }

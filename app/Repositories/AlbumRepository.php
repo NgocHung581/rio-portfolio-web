@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Album;
 use Common\App\Repositories\AlbumRepository as CommonAlbumRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Repository class for `Album` model.
@@ -16,11 +16,11 @@ class AlbumRepository extends CommonAlbumRepository
     /**
      * Retrieve all albums that are highlighted.
      */
-    public function findHighlightAlbums(int $perPage): LengthAwarePaginator
+    public function getHighlightAlbums(): Collection
     {
         return Album::query()
             ->with('thumbnail')
             ->where('is_highlight', true)
-            ->paginate($perPage);
+            ->get();
     }
 }
