@@ -6,7 +6,7 @@ type Props = PropsWithChildren;
 const ProseWrapper = ({ children }: Props) => {
     return (
         <Box
-            sx={(theme) => ({
+            sx={{
                 '& :where(p)': {
                     mb: 4,
                     ':last-child': {
@@ -21,14 +21,8 @@ const ProseWrapper = ({ children }: Props) => {
                     mx: { xs: 2, md: 10 },
                     borderLeft: 4,
                     borderLeftColor: 'primary.main',
-                    ...theme.applyStyles('light', {
-                        color: 'black',
-                    }),
-                    ...theme.applyStyles('dark', {
-                        color: 'white',
-                    }),
                 },
-                '& :where(ul), & :where(ol)': {
+                '& :where(ul, ol)': {
                     my: 5,
                     pl: { xs: 6, lg: 10 },
                 },
@@ -50,11 +44,11 @@ const ProseWrapper = ({ children }: Props) => {
                     textDecoration: 'underline',
                     fontWeight: 500,
                     color: 'primary.main',
-                    '&:hover': {
+                    ':hover': {
                         color: 'primary.dark',
                     },
                 },
-            })}
+            }}
         >
             {children}
         </Box>

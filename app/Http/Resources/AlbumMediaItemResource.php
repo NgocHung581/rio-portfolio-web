@@ -21,11 +21,16 @@ class AlbumMediaItemResource extends JsonResource
     {
         $data = [
             'id' => $this->id,
-            'album' => new AlbumResource($this->album),
             'type' => $this->mediaFile->type,
             'url' => $this->mediaFile->url,
             'column_span' => $this->column_span,
         ];
+
+        if ($this->relationLoaded('album')) {
+            $data['album'] = new AlbumResource($this->album);
+        } else {
+            $data['album_id'] = $this->album_id;
+        }
 
         if ($this->relationLoaded('videoThumbnailFile') && isset($this->videoThumbnailFile)) {
             $data['video_thumbnail_url'] = $this->videoThumbnailFile->url;

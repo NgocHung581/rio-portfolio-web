@@ -1,3 +1,4 @@
+import { AlbumMediaItem } from './albumMediaItem';
 import { MediaFile } from './mediaFile';
 
 export type Album = {
@@ -9,6 +10,7 @@ export type Album = {
     slug: string;
     is_highlight: boolean;
     thumbnail: MediaFile;
+    media_items?: AlbumMediaItem[];
     created_at: string;
     updated_at: string;
 };

@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Album\ListAlbumsRequest;
-use App\Http\Resources\AlbumMediaItemResource;
 use App\Http\Resources\AlbumResource;
 use App\Models\Album;
 use App\Services\Album\ListAlbumsService;
-use App\Services\AlbumMediaItem\ListAlbumMediaItemsService;
 use Common\App\Constants\PerPage;
 use Illuminate\Http\JsonResponse;
 use Inertia\Response;
@@ -47,13 +45,16 @@ class AlbumController extends Controller
     /**
      * Display the album detail view.
      */
-    public function show(Album $album, ListAlbumMediaItemsService $listAlbumMediaItemsService): Response|ResponseFactory
+    public function show(Album $album): Response|ResponseFactory
     {
-        $albumMediaItems = $listAlbumMediaItemsService->execute($album->id, PerPage::DEFAULT);
+        if ($album->mediaItems->isEmpty()) {
+            abort(404);
+        }
+
+        $album->load(['mediaItems' => fn($query) => $query->with(['mediaFile', 'videoThumbnailFile'])]);
 
         return inertia('Album/Detail', [
             'album' => new AlbumResource($album),
-            'albumMediaItems' => AlbumMediaItemResource::collection($albumMediaItems),
         ]);
     }
 }

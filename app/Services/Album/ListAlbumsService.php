@@ -24,7 +24,8 @@ class ListAlbumsService
         return $this->albumRepository->findWithPagination(
             perPage: $perPage,
             relations: ['thumbnail'],
-            withTrashed: false
+            withTrashed: false,
+            hasMediaItems: true
         );
     }
 }

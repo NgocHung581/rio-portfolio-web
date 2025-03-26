@@ -20,8 +20,7 @@ class AlbumResource extends JsonResource
     public function toArray(Request $request): array
     {
         $locale = app()->getLocale();
-
-        return [
+        $data = [
             'id' => $this->id,
             'title' => $this->{"title_{$locale}"},
             'name' => $this->{"name_{$locale}"},
@@ -33,5 +32,11 @@ class AlbumResource extends JsonResource
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
+
+        if ($this->relationLoaded('mediaItems')) {
+            $data['media_items'] = AlbumMediaItemResource::collection($this->mediaItems);
+        }
+
+        return $data;
     }
 }

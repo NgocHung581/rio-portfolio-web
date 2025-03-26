@@ -21,6 +21,7 @@ class AlbumRepository extends CommonAlbumRepository
         return Album::query()
             ->with('thumbnail')
             ->where('is_highlight', true)
+            ->whereHas('mediaItems')
             ->get();
     }
 }

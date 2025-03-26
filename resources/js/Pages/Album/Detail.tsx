@@ -1,31 +1,39 @@
-import Image from '@/Components/Image';
 import ProseWrapper from '@/Components/ProseWrapper';
 import FixedSidebarLayout from '@/Layouts/FixedSidebarLayout';
-import { PaginatedData } from '@/types';
 import { Album } from '@/types/album';
-import { AlbumMediaItem } from '@/types/albumMediaItem';
-import AlbumInfoSection from '@/views/Album/detail/AlbumInfoSection';
+import AlbumMediaItemList from '@/views/Album/detail/AlbumMediaItemList';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 
 export type AlbumDetailPageProps = {
     album: Album;
-    albumMediaItems: PaginatedData<AlbumMediaItem>;
 };
 
-const AlbumDetailPage = ({ album, albumMediaItems }: AlbumDetailPageProps) => {
-    const { t } = useTranslation();
-
+const AlbumDetailPage = ({ album }: AlbumDetailPageProps) => {
     return (
         <FixedSidebarLayout
             title={album.name}
-            header={<AlbumInfoSection />}
+            header={
+                <Box py={5}>
+                    <Container>
+                        <Stack spacing={10}>
+                            <Typography variant="h1" color="primary" textAlign="center">
+                                {album.title}
+                            </Typography>
+                            <ProseWrapper>
+                                <Box dangerouslySetInnerHTML={{ __html: album.description }} color="primary.main" />
+                            </ProseWrapper>
+                            <Typography variant="h2" color="primary" textAlign="center">
+                                {album.name}
+                            </Typography>
+                        </Stack>
+                    </Container>
+                </Box>
+            }
             footer={
-                <Box bgcolor="background.paper" py={5}>
+                <Box py={5}>
                     <Container>
                         <ProseWrapper>
                             <Box dangerouslySetInnerHTML={{ __html: album.summary }} color="primary.main" />
@@ -34,24 +42,7 @@ const AlbumDetailPage = ({ album, albumMediaItems }: AlbumDetailPageProps) => {
                 </Box>
             }
         >
-            <Stack spacing={6}>
-                <Typography variant="h2" textAlign="center" className="title-border-bottom">
-                    {t('project')}: {album.name}
-                </Typography>
-                <Grid container spacing={2}>
-                    {albumMediaItems.data.map((albumMediaItem) => (
-                        <Grid key={albumMediaItem.id} size={albumMediaItem.column_span}>
-                            <Image
-                                src={albumMediaItem.url}
-                                alt={album.name}
-                                imageSx={{ width: 1, height: 1, objectFit: 'cover' }}
-                                isVideo={!!albumMediaItem.video_thumbnail_url}
-                                videoThumbnailUrl={albumMediaItem.video_thumbnail_url}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
-            </Stack>
+            {album.media_items?.length ? <AlbumMediaItemList /> : <Typography>No data available.</Typography>}
         </FixedSidebarLayout>
     );
 };

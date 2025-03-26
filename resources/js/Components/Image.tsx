@@ -15,9 +15,11 @@ type Props = {
     containerSx?: SxProps<Theme>;
     isVideo?: boolean;
     videoThumbnailUrl?: string;
+    onClick?: () => void;
+    containerClassName?: string;
 };
 
-const Image = ({ src, alt, containerSx, imageSx, isVideo, videoThumbnailUrl }: Props) => {
+const Image = ({ src, alt, containerSx, imageSx, isVideo, videoThumbnailUrl, onClick, containerClassName }: Props) => {
     const imgRef = useRef<HTMLImageElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -64,11 +66,12 @@ const Image = ({ src, alt, containerSx, imageSx, isVideo, videoThumbnailUrl }: P
     };
 
     return (
-        <Box height={1} position="relative" sx={containerSx}>
+        <Box className={containerClassName} height={1} position="relative" sx={containerSx}>
             {isVideo ? (
                 <Box
                     ref={imgRef}
                     height={1}
+                    width={1}
                     onContextMenu={handleOpenContextMenu}
                     sx={{
                         ...(showVideoThumbnail && {
@@ -101,6 +104,7 @@ const Image = ({ src, alt, containerSx, imageSx, isVideo, videoThumbnailUrl }: P
                     alt={alt}
                     onContextMenu={handleOpenContextMenu}
                     sx={imageSx}
+                    onClick={onClick}
                 />
             )}
 
