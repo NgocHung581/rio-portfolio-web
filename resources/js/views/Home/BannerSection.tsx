@@ -4,8 +4,8 @@ import { PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
+import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
@@ -36,22 +36,26 @@ const BannerSection = () => {
                 gap={5}
                 divider={<ArrowForwardIosIcon fontSize="small" />}
             >
-                <Typography
+                <MuiLink
                     component={Link}
                     href={route('albums.index')}
+                    underline="none"
                     variant="h5"
+                    color="textPrimary"
                     sx={{ ':hover': { color: 'primary.main' } }}
                 >
                     {t('projects')}
-                </Typography>
-                <Typography
+                </MuiLink>
+                <MuiLink
                     component={Link}
                     href={route('about')}
+                    underline="none"
                     variant="h5"
+                    color="textPrimary"
                     sx={{ ':hover': { color: 'primary.main' } }}
                 >
                     {t('about')}
-                </Typography>
+                </MuiLink>
             </Stack>
         </Box>
     );

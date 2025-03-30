@@ -26,11 +26,11 @@ const AlbumCard = ({ album }: Props) => {
     };
 
     return (
-        <Box position="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <Box height={1} position="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Image
                 src={album.thumbnail.url}
                 alt={album.name}
-                imageSx={{ aspectRatio: album.thumbnail.aspect_ratio, width: 1, objectFit: 'cover' }}
+                imageSx={{ aspectRatio: album.thumbnail.aspect_ratio, width: 1, height: 1, objectFit: 'cover' }}
             />
             <Backdrop open={isHovering} mountOnEnter unmountOnExit sx={{ position: 'absolute' }}>
                 <Button LinkComponent={Link} href={route('albums.show', album)} startIcon={<VisibilityOutlinedIcon />}>
