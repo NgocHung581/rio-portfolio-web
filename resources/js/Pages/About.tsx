@@ -36,7 +36,9 @@ const AboutPage = ({ aboutPageInfo }: PageProps) => {
                 </Container>
             }
         >
-            <Box component="img" src="/images/avatars/fake_me_2.jpg" width={1} />
+            <Box display="flex" alignItems="center" justifyContent="center">
+                <Box component="img" src="/images/avatars/fake_me_2.jpg" width={1} />
+            </Box>
             <Box bgcolor="action.hover" p={10}>
                 <ProseWrapper>
                     <Box dangerouslySetInnerHTML={{ __html: aboutPageInfo.introduction }} />
