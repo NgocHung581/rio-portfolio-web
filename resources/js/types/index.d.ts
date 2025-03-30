@@ -14,6 +14,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
     ziggy: Config & { location: string };
     localeOptions: Option<string>[];
+    aboutPageInfo: AboutPageInfo;
 };
 
 export type PropsWithChildren<T = unknown> = T & { children: ReactNode };
@@ -41,4 +42,17 @@ export type PaginatedData<TData> = {
     data: TData[];
     links: PaginatedDataLinks;
     meta: PaginatedDataMeta;
+};
+
+type PartnerLogoImage = {
+    url: string;
+    file_path: string;
+    file_name: string;
+    file_size: number;
+};
+
+type AboutPageInfo = {
+    introduction: string;
+    short_introduction: string;
+    partner_logo_images: PartnerLogoImage[];
 };

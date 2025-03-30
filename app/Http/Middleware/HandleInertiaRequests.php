@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use Common\App\Enums\Locale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -33,6 +34,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $aboutPageInfo = Http::get(config('app.backoffice_url') . '/api/about-page-information')->json();
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -43,6 +46,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'localeOptions' => Locale::toOptions(),
+            'aboutPageInfo' => $aboutPageInfo,
         ];
     }
 }
