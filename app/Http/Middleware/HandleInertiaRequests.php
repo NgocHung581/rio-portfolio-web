@@ -41,12 +41,13 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn() => [
+            'ziggy' => fn () => [
                 ...(new Ziggy())->toArray(),
                 'location' => $request->url(),
             ],
             'localeOptions' => Locale::toOptions(),
             'aboutPageInfo' => $aboutPageInfo,
+            'locale' => $request->session()->get('locale', config('app.locale')),
         ];
     }
 }

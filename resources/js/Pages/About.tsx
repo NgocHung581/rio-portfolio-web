@@ -17,29 +17,29 @@ const AboutPage = ({ aboutPageInfo }: PageProps) => {
             withContainer
             sidebarProps={{ hideShortIntroduction: true, layout: 'simple' }}
             footer={
-                <Container sx={{ py: 10 }}>
-                    <Stack alignItems="center" gap={6}>
-                        <Typography variant="h2">{t('my_partners')}</Typography>
-                        <Marquee autoFill gradient gradientColor="var(--mui-palette-background-default)">
-                            {aboutPageInfo.partner_logo_images.map((image) => (
-                                <Box
-                                    key={image.url}
-                                    component="img"
-                                    src={image.url}
-                                    mx={2}
-                                    width={100}
-                                    sx={{ aspectRatio: 1, objectFit: 'cover' }}
-                                />
-                            ))}
-                        </Marquee>
-                    </Stack>
-                </Container>
+                <Stack alignItems="center" gap={6}>
+                    <Typography textTransform="uppercase" fontWeight={900} fontSize={40}>
+                        Partners
+                    </Typography>
+                    <Marquee autoFill gradient gradientColor="var(--mui-palette-background-default)">
+                        {aboutPageInfo.partner_logo_images.map((image) => (
+                            <Box
+                                key={image.url}
+                                component="img"
+                                src={image.url}
+                                mx={2}
+                                width={100}
+                                sx={{ aspectRatio: 1, objectFit: 'cover' }}
+                            />
+                        ))}
+                    </Marquee>
+                </Stack>
             }
         >
             <Box display="flex" alignItems="center" justifyContent="center">
-                <Box component="img" src="/images/avatars/fake_me_2.jpg" width={1} />
+                <Box component="img" src="/images/avatars/fake_me_2.jpg" width={1} sx={{ aspectRatio: '3/2' }} />
             </Box>
-            <Box bgcolor="action.hover" p={10}>
+            <Box bgcolor="black" color="background.default" p={10}>
                 <ProseWrapper>
                     <Box dangerouslySetInnerHTML={{ __html: aboutPageInfo.introduction }} />
                 </ProseWrapper>

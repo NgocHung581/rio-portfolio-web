@@ -7,12 +7,15 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     status: number;
 };
 
 const ErrorPage = ({ status }: Props) => {
+    const { t } = useTranslation();
+
     const description = {
         503: 'Sorry, we are doing some maintenance. Please check back soon.',
         500: 'Whoops, something went wrong on our servers.',
@@ -32,7 +35,7 @@ const ErrorPage = ({ status }: Props) => {
                 <Stack alignItems="start" gap={2}>
                     <Typography>{description}</Typography>
                     <Button LinkComponent={Link} href={route('home')} startIcon={<ArrowBackIcon />}>
-                        Home
+                        {t('home')}
                     </Button>
                 </Stack>
             </Stack>

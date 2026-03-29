@@ -16,7 +16,7 @@ const ScrollToTopButton = () => {
 
     return (
         <Fade in={trigger} unmountOnExit>
-            <Box onClick={handleClick} sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 1 }}>
+            <Box onClick={handleClick} sx={{ position: 'fixed', bottom: 60, right: 8, zIndex: 1 }}>
                 <Fab size="small" color="primary">
                     <KeyboardArrowUpIcon />
                 </Fab>

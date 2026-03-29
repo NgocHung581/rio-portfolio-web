@@ -15,6 +15,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     ziggy: Config & { location: string };
     localeOptions: Option<string>[];
     aboutPageInfo: AboutPageInfo;
+    locale: 'en' | 'vi';
 };
 
 export type PropsWithChildren<T = unknown> = T & { children: ReactNode };

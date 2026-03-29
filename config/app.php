@@ -126,4 +126,6 @@ return [
     ],
 
     'backoffice_url' => env('BACKOFFICE_URL', ''),
+
+    'storage_host' => env('STORAGE_HOST', ''),
 ];
