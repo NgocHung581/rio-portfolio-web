@@ -14,7 +14,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
     ziggy: Config & { location: string };
     localeOptions: Option<string>[];
-    aboutPageInfo: AboutPageInfo;
+    websiteContentSetting: WebsiteContentSetting;
     locale: 'en' | 'vi';
 };
 
@@ -45,15 +45,17 @@ export type PaginatedData<TData> = {
     meta: PaginatedDataMeta;
 };
 
-type PartnerLogoImage = {
+type UploadedFile = {
     url: string;
-    file_path: string;
-    file_name: string;
-    file_size: number;
 };
 
-type AboutPageInfo = {
-    introduction: string;
-    short_introduction: string;
-    partner_logo_images: PartnerLogoImage[];
+type WebsiteContentSetting = {
+    phone_number: string;
+    email: string;
+    introduction_en: string;
+    introduction_vi: string;
+    avatar: UploadedFile;
+    partner_logos: UploadedFile[];
+    banner_text_en: string;
+    banner_text_vi: string;
 };

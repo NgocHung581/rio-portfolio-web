@@ -43,6 +43,7 @@
         "i18next-http-backend": "^3.0.2",
         "react-fast-marquee": "^1.6.5",
         "react-i18next": "^15.4.1",
+        "react-inner-image-zoom": "^4.0.1",
         "react-player": "^2.16.0",
         "swiper": "^11.2.5"
     }

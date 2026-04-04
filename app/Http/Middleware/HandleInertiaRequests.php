@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $aboutPageInfo = Http::get(config('app.backoffice_url') . '/api/about-page-information')->json();
+        $websiteContentSetting = Http::get(config('app.backoffice_url') . '/api/website-content-setting')->json();
 
         return [
             ...parent::share($request),
@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'localeOptions' => Locale::toOptions(),
-            'aboutPageInfo' => $aboutPageInfo,
+            'websiteContentSetting' => $websiteContentSetting,
             'locale' => $request->session()->get('locale', config('app.locale')),
         ];
     }

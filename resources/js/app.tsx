@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import Providers from './@core/components/Providers';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME;
 
 createInertiaApp({
     title: (title) => `${title} | ${appName}`,
@@ -30,6 +30,6 @@ createInertiaApp({
         );
     },
     progress: {
-        color: '#881d1d',
+        color: 'black',
     },
 });
