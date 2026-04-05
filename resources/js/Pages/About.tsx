@@ -15,11 +15,11 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
 
     return (
         <AppLayout>
-            <Stack py={5}>
+            <Stack pt={{ xs: 5, md: 0 }} pb={5}>
                 <Head title={t('about')} />
-                <Container>
-                    <Stack gap={12}>
-                        <Stack direction="row" gap={20}>
+                <Container sx={{ px: { xs: 0, md: 10 } }}>
+                    <Stack gap={{ xs: 6, md: 12 }}>
+                        <Stack direction={{ xs: 'column', md: 'row' }} gap={{ md: 10, lg: 20 }}>
                             <Sidebar />
                             <Stack>
                                 <Box display="flex" alignItems="center" justifyContent="center">
@@ -30,7 +30,7 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
                                         sx={{ aspectRatio: '3/2' }}
                                     />
                                 </Box>
-                                <Box bgcolor="black" color="background.default" p={10}>
+                                <Box bgcolor="black" color="background.default" p={10} fontSize={{ xs: 15, md: 16 }}>
                                     <ProseWrapper>
                                         <Box
                                             dangerouslySetInnerHTML={{
@@ -41,9 +41,9 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
                                 </Box>
                             </Stack>
                         </Stack>
-                        <Stack alignItems="center" gap={10}>
+                        <Stack alignItems="center" spacing={10}>
                             <Typography textTransform="uppercase" fontWeight={900} fontSize={40}>
-                                Partners
+                                {t('partners')}
                             </Typography>
                             <Marquee autoFill gradient gradientColor="var(--mui-palette-background-default)">
                                 {websiteContentSetting.partner_logos.map((file) => (
@@ -52,7 +52,7 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
                                         component="img"
                                         src={file.url}
                                         mx={2}
-                                        width={100}
+                                        width={{ xs: 80, md: 100 }}
                                         sx={{ aspectRatio: 1, objectFit: 'cover' }}
                                     />
                                 ))}

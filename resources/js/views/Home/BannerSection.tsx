@@ -1,3 +1,5 @@
+import Logo from '@/Components/Logo';
+import { NAV_ITEMS } from '@/constants/nav-items';
 import { HomePageProps } from '@/Pages/Home';
 import { PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -23,64 +25,51 @@ const BannerSection = () => {
     return (
         <Box component="section" position="relative">
             <Stack
-                direction="row"
-                justifyContent="space-between"
+                direction={{ xs: 'column-reverse', md: 'row' }}
+                justifyContent={{ md: 'space-between' }}
                 position="fixed"
                 top={0}
                 left={0}
                 right={0}
                 zIndex={3}
-                pl="10%"
-                pr={25}
+                pl={{ md: '10%' }}
+                pr={{ xs: 0, md: 10, lg: 20, xl: 25 }}
                 sx={{
                     background: trigger
                         ? 'linear-gradient(to right, rgba(0, 0, 0, 0) ,rgba(0, 0, 0))'
                         : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6) ,rgba(0, 0, 0, 0))',
                 }}
             >
-                <Box py={trigger ? 5 : 8}>
-                    {!trigger && <Box component="img" src="/images/logos/dark-logo.png" height={160} />}
+                <Box pl={{ xs: '10%', md: 0 }} py={trigger ? { xs: 0, md: 5 } : 10}>
+                    {!trigger && (
+                        <Box height={{ xs: 80, md: 120, lg: 160 }}>
+                            <Logo mode="dark" />
+                        </Box>
+                    )}
                 </Box>
-                <Stack direction="row" {...(trigger ? { alignItems: 'center' } : { pt: 8 })} gap={8} color="white">
-                    <MuiLink
-                        component={Link}
-                        href={route('home')}
-                        underline="hover"
-                        color="background.default"
-                        fontWeight={route().current('home') ? 700 : 400}
-                    >
-                        {t('home')}
-                    </MuiLink>
-                    <MuiLink
-                        component={Link}
-                        href={route('photography')}
-                        underline="hover"
-                        color="background.default"
-                        fontWeight={route().current('photography') ? 700 : 400}
-                    >
-                        {t('photography')}
-                    </MuiLink>
-                    <MuiLink
-                        component={Link}
-                        href={route('cinematography')}
-                        underline="hover"
-                        color="background.default"
-                        fontWeight={route().current('cinematography') ? 700 : 400}
-                    >
-                        {t('cinematography')}
-                    </MuiLink>
-                    <MuiLink
-                        component={Link}
-                        href={route('about')}
-                        underline="hover"
-                        color="background.default"
-                        fontWeight={route().current('about') ? 700 : 400}
-                    >
-                        {t('about')}
-                    </MuiLink>
+                <Stack
+                    direction="row"
+                    {...(trigger ? { alignItems: 'center', py: 2 } : { pt: 8 })}
+                    justifyContent={{ xs: 'center', md: 'end' }}
+                    gap={{ xs: 4, md: 8 }}
+                    color="white"
+                >
+                    {NAV_ITEMS.map((item) => (
+                        <MuiLink
+                            key={item.routeName}
+                            component={Link}
+                            href={route(item.routeName)}
+                            underline="hover"
+                            color="background.default"
+                            fontSize={{ xs: 12, md: 14, lg: 16 }}
+                            fontWeight={route().current(item.routeName) ? 700 : 400}
+                        >
+                            {t(item.labelKey)}
+                        </MuiLink>
+                    ))}
                 </Stack>
             </Stack>
-            <Box height="100vh" position="relative" sx={{ '.swiper': { height: 1 } }}>
+            <Box height={{ md: '100vh' }} position="relative" sx={{ '.swiper': { height: 1 } }}>
                 <Box
                     position="absolute"
                     sx={{
@@ -91,8 +80,14 @@ const BannerSection = () => {
                             'linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 75%)',
                     }}
                 >
-                    <Stack width={0.5} height={1} justifyContent="center" pl="10%">
-                        <Typography fontSize="2rem" color="background.default" whiteSpace="pre-wrap">
+                    <Stack width={{ xs: 0.7, xl: 0.5 }} height={1} justifyContent="center" pl="10%">
+                        <Typography
+                            fontSize={{ xs: 12, md: 24, lg: 30, xl: 32 }}
+                            color="background.default"
+                            whiteSpace="pre-wrap"
+                            mb={{ xs: -10, md: 40, lg: 0 }}
+                            sx={{ wordSpacing: 1 }}
+                        >
                             {websiteContentSetting[`banner_text_${locale}`]}
                         </Typography>
                     </Stack>

@@ -26,9 +26,7 @@ const ScrollToTopButton = () => {
                         size="small"
                         sx={{
                             bgcolor: 'rgba(var(--mui-palette-background-defaultChannel) / 0.8)',
-                            ':hover': {
-                                bgcolor: 'background.default',
-                            },
+                            ':hover': { bgcolor: 'background.default' },
                         }}
                     >
                         <KeyboardArrowUpIcon />

@@ -1,14 +1,17 @@
 import ProjectCard from '@/Components/ProjectCard';
+import SocialContacts from '@/Components/SocialContacts';
 import AppLayout from '@/Layouts/AppLayout';
 import Sidebar from '@/Layouts/components/shared/Sidebar';
 import { PageProps } from '@/types';
 import { Category } from '@/types/category';
 import { Head } from '@inertiajs/react';
+import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { useState } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = PageProps<{
@@ -17,6 +20,7 @@ type Props = PageProps<{
 
 const Cinematography = ({ categories, locale }: Props) => {
     const { t } = useTranslation();
+    const isFromMdScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
     const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
 
@@ -24,10 +28,16 @@ const Cinematography = ({ categories, locale }: Props) => {
 
     return (
         <AppLayout>
-            <Stack direction="row" gap={20} px={10} py={5}>
+            <Stack
+                minHeight="100vh"
+                direction={{ xs: 'column', md: 'row' }}
+                gap={{ md: 10, lg: 20 }}
+                px={{ md: 10 }}
+                py={5}
+            >
                 <Head title={t('cinematography')} />
                 <Sidebar />
-                <Stack component="main" flex={1} spacing={5}>
+                <Stack spacing={5}>
                     <Tabs
                         textColor="inherit"
                         variant="fullWidth"
@@ -47,13 +57,19 @@ const Cinematography = ({ categories, locale }: Props) => {
                     {!!projects.length && (
                         <Grid container spacing={2}>
                             {projects.map((project) => (
-                                <Grid key={project.id} size={4}>
+                                <Grid key={project.id} size={{ xs: 12, md: 6, xl: 4 }}>
                                     <ProjectCard project={project} />
                                 </Grid>
                             ))}
                         </Grid>
                     )}
                 </Stack>
+                {!isFromMdScreen && (
+                    <Fragment>
+                        <Divider sx={{ width: 0.5, mx: 'auto', my: 6 }} />
+                        <SocialContacts align="center" />
+                    </Fragment>
+                )}
             </Stack>
         </AppLayout>
     );

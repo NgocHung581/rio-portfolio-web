@@ -10,6 +10,8 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PhotographyController;
 use Illuminate\Support\Facades\Route;
 
+Route::put('/locale', LocaleController::class)->name('locale.set');
+
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/photography', PhotographyController::class)->name('photography');
@@ -17,8 +19,6 @@ Route::get('/photography', PhotographyController::class)->name('photography');
 Route::get('/cinematography', CinematographyController::class)->name('cinematography');
 
 Route::get('/about', AboutController::class)->name('about');
-
-Route::put('/locale', LocaleController::class)->name('locale.set');
 
 Route::prefix('projects')->controller(AlbumController::class)->name('albums.')
     ->group(function(): void {

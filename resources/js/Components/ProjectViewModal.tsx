@@ -3,20 +3,26 @@ import MediaType, { MediaTypeValue } from '@/enums/media-type';
 import { PageProps } from '@/types';
 import { Gallery, MediaItem, Project } from '@/types/project';
 import ClearIcon from '@mui/icons-material/Clear';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
 import grey from '@mui/material/colors/grey';
-import Dialog from '@mui/material/Dialog';
+import Dialog, { dialogClasses } from '@mui/material/Dialog';
+import Fab from '@mui/material/Fab';
+import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import { alpha } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, MutableRefObject, ReactNode, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InnerImageZoom from 'react-inner-image-zoom';
+import { useScroll } from 'react-use';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 type RenderTriggerProps = {
     openModal: () => void;
@@ -38,6 +44,8 @@ type Props = {
 
 const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
     const { t } = useTranslation();
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const [openModal, setOpenModal] = useState(false);
     const [openSubModal, setOpenSubModal] = useState(false);
@@ -76,23 +84,35 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                 fullWidth
                 slotProps={{
                     backdrop: { sx: { backdropFilter: 'blur(4px)' } },
-                    paper: { sx: { backgroundColor: 'background.default', py: 15 } },
+                    container: { ref: scrollContainerRef },
+                    paper: {
+                        sx: {
+                            backgroundColor: 'background.default',
+                            py: 15,
+                            m: { xs: 0, md: 8 },
+                            [`&.${dialogClasses.paperScrollBody}`]: {
+                                width: { xs: 1, md: 'calc(100% - 64px)' },
+                                maxWidth: { xs: 1, md: 'calc(100% - 64px)' },
+                            },
+                        },
+                    },
                 }}
             >
-                <Stack alignItems="center" spacing={15}>
-                    <Typography variant="h4" color="primary" fontWeight={700}>
+                <Stack alignItems="center" spacing={{ xs: 5, md: 10, lg: 15 }}>
+                    <Typography textAlign="center" fontSize={{ xs: 16, md: 18, lg: 20 }} fontWeight={900}>
                         {projectInfo[`title_${locale}`]}
                     </Typography>
-                    <ProseWrapper>
-                        <Box
-                            color="secondary.main"
-                            dangerouslySetInnerHTML={{ __html: projectInfo[`description_${locale}`] }}
-                            width={0.75}
-                            mx="auto"
-                        />
-                    </ProseWrapper>
+                    <Box fontSize={14}>
+                        <ProseWrapper>
+                            <Box
+                                dangerouslySetInnerHTML={{ __html: projectInfo[`description_${locale}`] }}
+                                width={0.75}
+                                mx="auto"
+                            />
+                        </ProseWrapper>
+                    </Box>
                     {projectInfo.galleries.map((gallery, galleryIndex) => (
-                        <Stack key={galleryIndex} alignItems="center" gap={15} width={1}>
+                        <Stack key={galleryIndex} alignItems="center" gap={{ xs: 5, md: 15 }} width={1}>
                             <Grid container spacing={1} sx={{ width: 1 }}>
                                 {gallery.media_items.map((mediaItem, mediaItemIndex) => (
                                     <Grid
@@ -122,7 +142,7 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                             {!!gallery.caption && (
                                 <Typography
                                     variant="caption"
-                                    color="var(--mui-palette-text-caption)"
+                                    fontSize={{ xs: 9, md: 10 }}
                                     fontWeight={700}
                                     width={0.75}
                                     mx="auto"
@@ -135,13 +155,13 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                     ))}
                     <ProseWrapper>
                         <Box
-                            color="secondary.main"
+                            fontSize={14}
                             dangerouslySetInnerHTML={{ __html: projectInfo[`summary_${locale}`] }}
                             width={0.75}
                             mx="auto"
                         />
                     </ProseWrapper>
-                    <Typography textTransform="uppercase" color="primary" fontWeight={700}>
+                    <Typography textTransform="uppercase" fontWeight={700} fontSize={14}>
                         {t('the_end')}
                     </Typography>
                 </Stack>
@@ -150,8 +170,8 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                     sx={{
                         position: 'fixed',
                         top: 10,
-                        right: 20,
-                        backgroundColor: 'var(--mui-palette-action-active)',
+                        right: { xs: 10, md: 20 },
+                        backgroundColor: alpha('#000', 0.2),
                         color: 'white',
                         ':hover': {
                             backgroundColor:
@@ -162,6 +182,7 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                 >
                     <ClearIcon fontSize="small" />
                 </IconButton>
+                <ScrollTopButton containerRef={scrollContainerRef} />
             </Dialog>
             <Dialog
                 open={openSubModal}
@@ -267,3 +288,35 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
 };
 
 export default ProjectViewModal;
+
+type ScrollTopButtonProps = {
+    containerRef: MutableRefObject<HTMLDivElement | null>;
+};
+
+function ScrollTopButton({ containerRef }: ScrollTopButtonProps) {
+    const { t } = useTranslation();
+    const { y } = useScroll(containerRef);
+
+    return (
+        <Fade in={y > 0} unmountOnExit>
+            <Tooltip title={t('scroll_to_top')} placement="left">
+                <Box
+                    onClick={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+                    sx={{ position: 'fixed', bottom: 10, right: 10, zIndex: 5 }}
+                >
+                    <Fab
+                        size="small"
+                        sx={{
+                            width: 36,
+                            height: 36,
+                            bgcolor: 'rgba(var(--mui-palette-background-defaultChannel) / 0.5)',
+                            ':hover': { bgcolor: 'background.default' },
+                        }}
+                    >
+                        <KeyboardArrowUpIcon fontSize="small" />
+                    </Fab>
+                </Box>
+            </Tooltip>
+        </Fade>
+    );
+}
