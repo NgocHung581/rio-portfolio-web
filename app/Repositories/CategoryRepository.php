@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use Common\App\Enums\MediaType;
-use Common\App\Enums\WebVisibility;
 use Common\App\Repositories\CategoryRepository as CommonCategoryRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,9 +20,6 @@ class CategoryRepository extends CommonCategoryRepository
     public function findManyByMediaType(MediaType $mediaType): Collection
     {
         return Category::query()
-            ->with([
-                'projects' => fn ($query) => $query->where('web_visibility', WebVisibility::Public)->orderByDesc('id'),
-            ])
             ->whereHas('projects')
             ->where('media_type', $mediaType)
             ->orderByDesc('id')

@@ -196,3 +196,20 @@ html:root {
     height: 4px !important;
     z-index: 9999 !important;
 }
+
+button.iiz__btn.iiz__close.iiz__close--visible {
+    display: block;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    width: 36px;
+    height: 36px;
+    right: 0;
+    &::before {
+        background-image: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff);
+        background-size:
+            100% 2px,
+            2px 100%;
+        width: 16px;
+        height: 16px;
+    }
+}

@@ -22,7 +22,7 @@ const HamburgerMenu = () => {
                 zIndex={10}
                 sx={(theme) => ({
                     width: openMobileNav ? 1 : 40,
-                    background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) ,rgba(0, 0, 0, 0.2))',
+                    background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) ,rgba(0, 0, 0))',
                     transition: theme.transitions.create('width', { easing: 'linear' }),
                 })}
             >
@@ -37,6 +37,7 @@ const HamburgerMenu = () => {
                                 color="background.default"
                                 fontSize={{ xs: 12, xl: 14 }}
                                 fontWeight={route().current(item.routeName) ? 700 : 400}
+                                preserveScroll={false}
                             >
                                 {t(item.labelKey)}
                             </MuiLink>

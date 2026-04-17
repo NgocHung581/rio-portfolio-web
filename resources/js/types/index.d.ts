@@ -59,3 +59,8 @@ type WebsiteContentSetting = {
     banner_text_en: string;
     banner_text_vi: string;
 };
+
+export type CursorPaginatedData<TData> = {
+    data: TData[];
+    next_cursor: string | null;
+};

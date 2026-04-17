@@ -10,7 +10,7 @@ import Providers from './@core/components/Providers';
 const appName = import.meta.env.VITE_APP_NAME;
 
 createInertiaApp({
-    title: (title) => `${title} | ${appName}`,
+    title: (title) => (title ? `${title} | ${appName}` : appName),
     resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
     setup({ el, App, props }) {
         if (import.meta.env.SSR) {

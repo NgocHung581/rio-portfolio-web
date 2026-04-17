@@ -7,7 +7,6 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
-import grey from '@mui/material/colors/grey';
 import Dialog, { dialogClasses } from '@mui/material/Dialog';
 import Fab from '@mui/material/Fab';
 import Fade from '@mui/material/Fade';
@@ -23,6 +22,7 @@ import InnerImageZoom from 'react-inner-image-zoom';
 import { useScroll } from 'react-use';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import GoogleDriveImage from './GoogleDriveImage';
 
 type RenderTriggerProps = {
     openModal: () => void;
@@ -32,7 +32,7 @@ type ProjectInfo = Pick<
     Project,
     'title_en' | 'title_vi' | 'description_en' | 'description_vi' | 'summary_en' | 'summary_vi'
 > & {
-    galleries: (Pick<Gallery, 'caption'> & { media_items: Pick<MediaItem, 'file_url' | 'frame'>[] })[];
+    galleries: (Pick<Gallery, 'caption'> & { media_items: Pick<MediaItem, 'id' | 'file_name' | 'frame'>[] })[];
     mediaType: MediaTypeValue;
 };
 
@@ -61,8 +61,8 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
         setOpenModal(false);
     };
 
-    const handleOpenSubModal = (fileUrl: string) => {
-        const index = mediaItems.findIndex((mediaItem) => mediaItem.file_url === fileUrl);
+    const handleOpenSubModal = (mediaItemId: number) => {
+        const index = mediaItems.findIndex((mediaItem) => mediaItem.id === mediaItemId);
 
         setOpenSubModal(true);
         setActiveSlide(index);
@@ -98,19 +98,18 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                     },
                 }}
             >
-                <Stack alignItems="center" spacing={{ xs: 5, md: 10, lg: 15 }}>
+                <Stack alignItems="center" spacing={{ xs: 5, md: 15 }}>
                     <Typography textAlign="center" fontSize={{ xs: 16, md: 18, lg: 20 }} fontWeight={900}>
                         {projectInfo[`title_${locale}`]}
                     </Typography>
-                    <Box fontSize={14}>
-                        <ProseWrapper>
-                            <Box
-                                dangerouslySetInnerHTML={{ __html: projectInfo[`description_${locale}`] }}
-                                width={0.75}
-                                mx="auto"
-                            />
-                        </ProseWrapper>
-                    </Box>
+                    <ProseWrapper>
+                        <Box
+                            fontSize={14}
+                            dangerouslySetInnerHTML={{ __html: projectInfo[`description_${locale}`] }}
+                            width={0.75}
+                            mx="auto"
+                        />
+                    </ProseWrapper>
                     {projectInfo.galleries.map((gallery, galleryIndex) => (
                         <Stack key={galleryIndex} alignItems="center" gap={{ xs: 5, md: 15 }} width={1}>
                             <Grid container spacing={1} sx={{ width: 1 }}>
@@ -118,7 +117,7 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                                     <Grid
                                         key={mediaItemIndex}
                                         size={12 / gallery.media_items.length}
-                                        onClick={() => handleOpenSubModal(mediaItem.file_url)}
+                                        onClick={() => handleOpenSubModal(mediaItem.id)}
                                     >
                                         {projectInfo.mediaType === MediaType.Video ? (
                                             <Box
@@ -127,13 +126,15 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                                                 width={1}
                                                 sx={{ aspectRatio: mediaItem.frame }}
                                             >
-                                                <source src={mediaItem.file_url} />
+                                                <source
+                                                    src={`${import.meta.env.VITE_APP_URL}/files/${mediaItem.file_name}`}
+                                                />
                                             </Box>
                                         ) : (
-                                            <Box
-                                                component="img"
-                                                src={mediaItem.file_url}
-                                                sx={{ aspectRatio: mediaItem.frame }}
+                                            <GoogleDriveImage
+                                                fileName={mediaItem.file_name}
+                                                containerSx={{ aspectRatio: mediaItem.frame }}
+                                                imageSx={{ aspectRatio: mediaItem.frame }}
                                             />
                                         )}
                                     </Grid>
@@ -147,6 +148,7 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                                     width={0.75}
                                     mx="auto"
                                     textAlign="center"
+                                    whiteSpace="pre-wrap"
                                 >
                                     {gallery.caption}
                                 </Typography>
@@ -195,7 +197,18 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                 fullWidth
                 slotProps={{
                     backdrop: { sx: { bgcolor: 'rgba(0, 0, 0, 0.9)' } },
-                    paper: { square: true, sx: { my: 0, height: 1, maxHeight: 1, bgcolor: 'transparent' } },
+                    paper: {
+                        square: true,
+                        sx: {
+                            my: 0,
+                            height: 1,
+                            maxHeight: 1,
+                            bgcolor: 'transparent',
+                            m: { xs: 0, md: 8 },
+                            width: { xs: 1, md: 'calc(100% - 64px)' },
+                            maxWidth: { xs: 1, md: 'calc(100% - 64px)' },
+                        },
+                    },
                 }}
             >
                 <Box height={1} maxHeight={1} sx={{ '> .swiper': { height: 1, maxHeight: 1 } }}>
@@ -205,25 +218,29 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                         initialSlide={activeSlide}
                     >
                         {mediaItems.map((mediaItem) => (
-                            <SwiperSlide key={mediaItem.file_url} style={{ textAlign: 'center', userSelect: 'none' }}>
+                            <SwiperSlide key={mediaItem.id} style={{ textAlign: 'center', userSelect: 'none' }}>
                                 {projectInfo.mediaType === MediaType.Video ? (
                                     <Box component="video" controls width={1} sx={{ aspectRatio: mediaItem.frame }}>
-                                        <source src={mediaItem.file_url} />
+                                        <source src={`${import.meta.env.VITE_APP_URL}/files/${mediaItem.file_name}`} />
                                     </Box>
                                 ) : (
                                     <Box
                                         component={InnerImageZoom}
-                                        src={mediaItem.file_url}
-                                        zoomSrc={mediaItem.file_url}
+                                        src={`${import.meta.env.VITE_APP_URL}/files/${mediaItem.file_name}`}
+                                        zoomSrc={`${import.meta.env.VITE_APP_URL}/files/${mediaItem.file_name}`}
                                         fullscreenOnMobile
                                         hideHint
                                         sx={{
-                                            aspectRatio: mediaItem.frame,
                                             height: 1,
-                                            maxHeight: 1,
-                                            width: 'auto',
-                                            maxWidth: 1,
-                                            mx: 'auto',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            'img.iiz__img': {
+                                                height: { xs: 'auto', md: '100vh' },
+                                                width: { xs: '100vw', md: 'auto' },
+                                                maxHeight: 1,
+                                                maxWidth: 1,
+                                                aspectRatio: mediaItem.frame,
+                                            },
                                         }}
                                     />
                                 )}
@@ -231,18 +248,19 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                         ))}
                     </Swiper>
                 </Box>
-                <Box sx={{ position: 'fixed', bottom: 0, left: 28, py: 4 }}>
-                    <Box component="img" src="/images/logos/dark-logo.png" width={50} />
-                </Box>
                 <IconButton
                     disableRipple
                     sx={{
                         position: 'fixed',
                         top: 10,
-                        right: 20,
-                        backgroundColor: grey[600],
+                        right: { xs: 10, md: 20 },
+                        zIndex: 1,
+                        backgroundColor: alpha('#000', 0.2),
                         color: 'white',
-                        ':hover': { backgroundColor: grey[500] },
+                        ':hover': {
+                            backgroundColor:
+                                'rgb(var(--mui-palette-action-activeChannel) / var(--mui-palette-action-disabledOpacity))',
+                        },
                     }}
                     onClick={handleCloseSubModal}
                 >
@@ -253,13 +271,16 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                     id="swiper-button-prev"
                     sx={{
                         position: 'fixed',
-                        left: 20,
+                        left: { xs: 0, md: 20 },
                         top: '50%',
                         zIndex: 1,
                         transform: 'translateY(-50%)',
-                        backgroundColor: grey[600],
+                        backgroundColor: alpha('#000', 0.2),
                         color: 'white',
-                        ':hover': { bgcolor: grey[500] },
+                        ':hover': {
+                            backgroundColor:
+                                'rgb(var(--mui-palette-action-activeChannel) / var(--mui-palette-action-disabledOpacity))',
+                        },
                         '&.swiper-button-disabled': { display: 'none' },
                     }}
                 >
@@ -270,13 +291,16 @@ const ProjectViewModal = ({ renderTrigger, projectInfo, locale }: Props) => {
                     id="swiper-button-next"
                     sx={{
                         position: 'fixed',
-                        right: 20,
+                        right: { xs: 0, md: 20 },
                         top: '50%',
                         zIndex: 1,
                         transform: 'translateY(-50%)',
-                        backgroundColor: grey[600],
+                        backgroundColor: alpha('#000', 0.2),
                         color: 'white',
-                        ':hover': { backgroundColor: grey[500] },
+                        ':hover': {
+                            backgroundColor:
+                                'rgb(var(--mui-palette-action-activeChannel) / var(--mui-palette-action-disabledOpacity))',
+                        },
                         '&.swiper-button-disabled': { display: 'none' },
                     }}
                 >
@@ -302,7 +326,7 @@ function ScrollTopButton({ containerRef }: ScrollTopButtonProps) {
             <Tooltip title={t('scroll_to_top')} placement="left">
                 <Box
                     onClick={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
-                    sx={{ position: 'fixed', bottom: 10, right: 10, zIndex: 5 }}
+                    sx={{ position: 'fixed', bottom: 10, right: { xs: 10, md: 20 }, zIndex: 5 }}
                 >
                     <Fab
                         size="small"

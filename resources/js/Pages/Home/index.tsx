@@ -1,9 +1,8 @@
 import ProjectCard from '@/Components/ProjectCard';
-import MediaType from '@/enums/media-type';
 import AppLayout from '@/Layouts/AppLayout';
+import BannerSection from '@/Pages/Home/components/BannerSection';
 import { PageProps } from '@/types';
 import { MediaItem, Project } from '@/types/project';
-import BannerSection from '@/views/Home/BannerSection';
 import { Head, Link } from '@inertiajs/react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -17,13 +16,15 @@ import { useTranslation } from 'react-i18next';
 
 export type HomePageProps = PageProps<{
     mediaItemsOnBanner: MediaItem[];
-    highlightedProjects: Project[];
+    photographyHighlights: Project[];
+    cinematographyHighlights: Project[];
 }>;
 
-const HomePage = ({ highlightedProjects }: HomePageProps) => {
+const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageProps) => {
     const { t } = useTranslation();
     const isFromLgScreen = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
+    const [isEnding, setIsEnding] = useState(false);
     const [finishIntro, setFinishIntro] = useState(false);
 
     if (!finishIntro) {
@@ -35,7 +36,14 @@ const HomePage = ({ highlightedProjects }: HomePageProps) => {
                 autoPlay
                 muted
                 playsInline
-                onEnded={() => setFinishIntro(true)}
+                onEnded={() => {
+                    setIsEnding(true);
+                    setTimeout(() => setFinishIntro(true), 1500);
+                }}
+                sx={(theme) => ({
+                    opacity: isEnding ? 0 : 1,
+                    transition: theme.transitions.create('opacity', { duration: 1500 }),
+                })}
             >
                 <source src={isFromLgScreen ? '/videos/intro-horizontal.mov' : '/videos/intro-vertical.mp4'} />
             </Box>
@@ -48,7 +56,7 @@ const HomePage = ({ highlightedProjects }: HomePageProps) => {
                 <Head title={t('home')} />
                 <BannerSection />
                 <Divider sx={{ height: { xs: 24, md: 48 } }} />
-                <Stack alignItems="center" px={{ md: 10 }} pt={{ xs: 10, md: 5 }} pb={10} spacing={10} bgcolor="black">
+                <Stack px={{ md: 10 }} pt={{ xs: 10, md: 5 }} pb={10} spacing={10} bgcolor="black">
                     <Typography
                         width={1}
                         color="background.default"
@@ -59,20 +67,18 @@ const HomePage = ({ highlightedProjects }: HomePageProps) => {
                         component={Link}
                         href={route('photography')}
                     >
-                        Photography
+                        {t('photography')}
                     </Typography>
                     <Grid container spacing={2} sx={{ flex: 1 }}>
-                        {highlightedProjects
-                            .filter((project) => project.category.media_type === MediaType.Image)
-                            .map((project) => (
-                                <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4 }} sx={{ height: 'fit-content' }}>
-                                    <ProjectCard project={project} />
-                                </Grid>
-                            ))}
+                        {photographyHighlights.map((project) => (
+                            <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4 }} sx={{ height: 'fit-content' }}>
+                                <ProjectCard project={project} mode="dark" />
+                            </Grid>
+                        ))}
                     </Grid>
-                    <Box color="background.default">
+                    <Box textAlign="center" color="background.default">
                         <Button variant="outlined" color="inherit" LinkComponent={Link} href={route('photography')}>
-                            View more
+                            {t('view_more')}
                         </Button>
                     </Box>
                 </Stack>
@@ -88,20 +94,18 @@ const HomePage = ({ highlightedProjects }: HomePageProps) => {
                         component={Link}
                         href={route('cinematography')}
                     >
-                        Cinematography
+                        {t('cinematography')}
                     </Typography>
                     <Grid container spacing={2} sx={{ flex: 1 }}>
-                        {highlightedProjects
-                            .filter((project) => project.category.media_type === MediaType.Video)
-                            .map((project) => (
-                                <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4 }} sx={{ height: 'fit-content' }}>
-                                    <ProjectCard project={project} />
-                                </Grid>
-                            ))}
+                        {cinematographyHighlights.map((project) => (
+                            <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4 }} sx={{ height: 'fit-content' }}>
+                                <ProjectCard project={project} mode="dark" />
+                            </Grid>
+                        ))}
                     </Grid>
                     <Box textAlign="center" color="background.default">
                         <Button variant="outlined" color="inherit" LinkComponent={Link} href={route('cinematography')}>
-                            View more
+                            {t('view_more')}
                         </Button>
                     </Box>
                 </Stack>

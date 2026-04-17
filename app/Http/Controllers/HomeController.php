@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\UseCases\MediaItem\GetMediaItemsOnBannerUseCase;
 use App\UseCases\Project\GetHighlightedProjectsUseCase;
+use Common\App\Enums\MediaType;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -24,6 +25,10 @@ class HomeController extends Controller
         $mediaItemsOnBanner = $getMediaItemsOnBannerUseCase();
         $highlightedProjects = $getHighlightedProjectsUseCase();
 
-        return inertia('Home', compact('mediaItemsOnBanner', 'highlightedProjects'));
+        return inertia('Home/index', [
+            'mediaItemsOnBanner' => $mediaItemsOnBanner,
+            'photographyHighlights' => $highlightedProjects->where('category.media_type', MediaType::Image)->values(),
+            'cinematographyHighlights' => $highlightedProjects->where('category.media_type', MediaType::Video)->values(),
+        ]);
     }
 }

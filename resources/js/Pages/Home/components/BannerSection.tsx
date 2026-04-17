@@ -1,3 +1,4 @@
+import GoogleDriveImage from '@/Components/GoogleDriveImage';
 import Logo from '@/Components/Logo';
 import { NAV_ITEMS } from '@/constants/nav-items';
 import { HomePageProps } from '@/Pages/Home';
@@ -36,13 +37,13 @@ const BannerSection = () => {
                 pr={{ xs: 0, md: 10, lg: 20, xl: 25 }}
                 sx={{
                     background: trigger
-                        ? 'linear-gradient(to right, rgba(0, 0, 0, 0) ,rgba(0, 0, 0))'
+                        ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0) ,rgba(0, 0, 0))'
                         : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6) ,rgba(0, 0, 0, 0))',
                 }}
             >
                 <Box pl={{ xs: '10%', md: 0 }} py={trigger ? { xs: 0, md: 5 } : 10}>
                     {!trigger && (
-                        <Box height={{ xs: 80, md: 120, lg: 160 }}>
+                        <Box display="inline-block" height={{ xs: 80, md: 120, lg: 160 }}>
                             <Logo mode="dark" />
                         </Box>
                     )}
@@ -53,6 +54,7 @@ const BannerSection = () => {
                     justifyContent={{ xs: 'center', md: 'end' }}
                     gap={{ xs: 4, md: 8 }}
                     color="white"
+                    height={1}
                 >
                     {NAV_ITEMS.map((item) => (
                         <MuiLink
@@ -63,13 +65,14 @@ const BannerSection = () => {
                             color="background.default"
                             fontSize={{ xs: 12, md: 14, lg: 16 }}
                             fontWeight={route().current(item.routeName) ? 700 : 400}
+                            preserveScroll={false}
                         >
                             {t(item.labelKey)}
                         </MuiLink>
                     ))}
                 </Stack>
             </Stack>
-            <Box height={{ md: '100vh' }} position="relative" sx={{ '.swiper': { height: 1 } }}>
+            <Box height={{ xs: '55vh', md: '100vh' }} position="relative" sx={{ '.swiper': { height: 1 } }}>
                 <Box
                     position="absolute"
                     sx={{
@@ -96,7 +99,11 @@ const BannerSection = () => {
                 <Swiper loop autoplay slidesPerView={1} modules={[Autoplay]}>
                     {mediaItemsOnBanner.map((mediaItem) => (
                         <SwiperSlide key={mediaItem.id}>
-                            <Box component="img" src={mediaItem.file_url} />
+                            <GoogleDriveImage
+                                fileName={mediaItem.file_name}
+                                containerSx={{ height: 1, width: 1 }}
+                                imageSx={{ height: 1, width: 1 }}
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>
