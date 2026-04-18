@@ -1,0 +1,105 @@
+networks:
+    rio-collective-network:
+        driver: bridge
+
+volumes:
+    mysql-database-data:
+    storage-framework-rio-collective-backoffice:
+    storage-app-public-rio-collective-backoffice:
+    vendor-rio-collective-backoffice:
+    storage-framework-rio-collective-web:
+    storage-app-public-rio-collective-web:
+    vendor-rio-collective-web:
+
+services:
+    rio-collective-backoffice:
+        build:
+            context: ./php
+            args:
+                - HTTP_PROXY=${HTTP_PROXY}
+        container_name: rio-collective-backoffice
+        restart: unless-stopped
+        volumes:
+            - ./../../rio-collective-backoffice:/var/www
+            - ./php/php.ini:/usr/local/etc/php/php.ini
+            - storage-framework-rio-collective-backoffice:/var/www/storage/framework
+            - storage-app-public-rio-collective-backoffice:/var/www/storage/app/public
+            - vendor-rio-collective-backoffice:/var/www/vendor
+        networks:
+            - rio-collective-network
+        environment:
+            - http_proxy=${HTTP_PROXY}
+            - https_proxy=${HTTPS_PROXY}
+            - no_proxy=${NO_PROXY}
+
+    rio-collective-web:
+        build:
+            context: ./php
+            args:
+                - HTTP_PROXY=${HTTP_PROXY}
+        container_name: rio-collective-web
+        restart: unless-stopped
+        volumes:
+            - ./../../rio-collective-web:/var/www
+            - ./php/php.ini:/usr/local/etc/php/php.ini
+            - storage-framework-rio-collective-web:/var/www/storage/framework
+            - storage-app-public-rio-collective-web:/var/www/storage/app/public
+            - vendor-rio-collective-web:/var/www/vendor
+        networks:
+            - rio-collective-network
+        environment:
+            - http_proxy=${HTTP_PROXY}
+            - https_proxy=${HTTPS_PROXY}
+            - no_proxy=${NO_PROXY}
+
+    rio-collective-web-nginx:
+        container_name: rio-collective-web-nginx
+        build:
+            context: ./nginx
+            args:
+                - PHP_UPSTREAM_CONTAINER=rio-collective-web
+                - PHP_UPSTREAM_PORT=9000
+                - HTTP_PROXY=${HTTP_PROXY}
+        ports:
+            - '8000:443'
+        depends_on:
+            - rio-collective-web
+        working_dir: /var/www
+        volumes:
+            - ./../../rio-collective-web:/var/www
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - storage-framework-rio-collective-web:/var/www/storage/framework
+            - storage-app-public-rio-collective-web:/var/www/storage/app/public
+            - vendor-rio-collective-web:/var/www/vendor
+        networks:
+            - rio-collective-network
+        environment:
+            - http_proxy=${HTTP_PROXY}
+            - https_proxy=${HTTPS_PROXY}
+            - no_proxy=${NO_PROXY}
+
+    rio-collective-backoffice-nginx:
+        container_name: rio-collective-backoffice-nginx
+        build:
+            context: ./nginx
+            args:
+                - PHP_UPSTREAM_CONTAINER=rio-collective-backoffice
+                - PHP_UPSTREAM_PORT=9000
+                - HTTP_PROXY=${HTTP_PROXY}
+        ports:
+            - '8001:443'
+        depends_on:
+            - rio-collective-backoffice
+        working_dir: /var/www
+        volumes:
+            - ./../../rio-collective-backoffice:/var/www
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - storage-framework-rio-collective-backoffice:/var/www/storage/framework
+            - storage-app-public-rio-collective-backoffice:/var/www/storage/app/public
+            - vendor-rio-collective-backoffice:/var/www/vendor
+        networks:
+            - rio-collective-network
+        environment:
+            - http_proxy=${HTTP_PROXY}
+            - https_proxy=${HTTPS_PROXY}
+            - no_proxy=${NO_PROXY}
