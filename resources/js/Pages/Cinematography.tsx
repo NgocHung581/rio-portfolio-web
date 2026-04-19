@@ -28,7 +28,7 @@ const Cinematography = ({ categories, projects: paginatedProjects, locale }: Pro
 
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
+    const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id ?? '');
     const [projects, setProjects] = useState(paginatedProjects.data);
     const [nextCursor, setNextCursor] = useState(paginatedProjects.next_cursor);
     const [isLoadingMore, setIsLoadingMore] = useState(false);

@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $websiteContentSetting = Http::get(config('app.backoffice_url') . '/api/website-content-setting')->json();
+        $websiteContentSetting = Http::timeout(30)->get(config('app.backoffice_url') . '/api/website-content-setting')->json();
 
         return [
             ...parent::share($request),
