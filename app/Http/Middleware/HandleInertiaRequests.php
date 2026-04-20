@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use Common\App\Enums\Locale;
+use Common\App\UseCases\WebsiteContentSetting\GetWebsiteContentSettingUseCase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -18,6 +18,10 @@ class HandleInertiaRequests extends Middleware
      * @var string
      */
     protected $rootView = 'app';
+
+    public function __construct(private readonly GetWebsiteContentSettingUseCase $getWebsiteContentSettingUseCase)
+    {
+    }
 
     /**
      * Determine the current asset version.
@@ -34,8 +38,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $websiteContentSetting = Http::timeout(30)->get(config('app.backoffice_url') . '/api/website-content-setting')->json();
-
         return [
             ...parent::share($request),
             'auth' => [
@@ -46,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'localeOptions' => Locale::toOptions(),
-            'websiteContentSetting' => $websiteContentSetting,
+            'websiteContentSetting' => ($this->getWebsiteContentSettingUseCase)(),
             'locale' => $request->session()->get('locale', config('app.locale')),
         ];
     }
