@@ -12,3 +12,5 @@ docker exec -u 0 rio-collective-backoffice bash -c "chmod -R 777 public"
 
 docker exec rio-collective-web bash -c "composer install"
 docker exec rio-collective-backoffice bash -c "composer install"
+
+docker exec rio-collective-backoffice bash -c "php artisan storage:link"
