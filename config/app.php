@@ -125,7 +125,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'backoffice_url' => env('BACKOFFICE_URL', ''),
-
     'storage_host' => env('STORAGE_HOST', ''),
 ];

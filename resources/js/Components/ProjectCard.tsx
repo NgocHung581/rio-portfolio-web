@@ -1,7 +1,7 @@
 import { Project } from '@/types/project';
 import { usePage } from '@inertiajs/react';
 import Box from '@mui/material/Box';
-import GoogleDriveImage from './GoogleDriveImage';
+import Image from './Image';
 import ProjectViewModal from './ProjectViewModal';
 
 type Props = {
@@ -31,8 +31,8 @@ const ProjectCard = ({ project, mode }: Props) => {
             <ProjectViewModal
                 renderTrigger={({ openModal }) => (
                     <Box onClick={openModal} sx={{ cursor: 'pointer' }}>
-                        <GoogleDriveImage
-                            fileName={project.thumbnail_file_name}
+                        <Image
+                            src={project.thumbnail_file_url}
                             containerSx={{ aspectRatio: '4/5' }}
                             imageSx={{ aspectRatio: '4/5', width: 1 }}
                             skeletonSx={{ ...(mode === 'dark' && { backgroundColor: 'rgba(255, 255, 255, 0.13)' }) }}

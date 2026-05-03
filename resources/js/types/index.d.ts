@@ -45,17 +45,13 @@ export type PaginatedData<TData> = {
     meta: PaginatedDataMeta;
 };
 
-type UploadedFile = {
-    url: string;
-};
-
 type WebsiteContentSetting = {
     phone_number: string;
     email: string;
     introduction_en: string;
     introduction_vi: string;
-    avatar: UploadedFile;
-    partner_logos: UploadedFile[];
+    avatar: { file_path: string; file_url: string };
+    partner_logos: { id: string; file_path: string; file_url: string }[];
     banner_text_en: string;
     banner_text_vi: string;
 };

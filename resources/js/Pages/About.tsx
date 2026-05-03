@@ -1,3 +1,4 @@
+import Image from '@/Components/Image';
 import ProseWrapper from '@/Components/ProseWrapper';
 import AppLayout from '@/Layouts/AppLayout';
 import Sidebar from '@/Layouts/components/shared/Sidebar';
@@ -21,15 +22,12 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
                     <Stack gap={{ xs: 6, md: 12 }}>
                         <Stack direction={{ xs: 'column', md: 'row' }} gap={{ md: 10, lg: 20 }}>
                             <Sidebar />
-                            <Stack>
-                                <Box display="flex" alignItems="center" justifyContent="center">
-                                    <Box
-                                        component="img"
-                                        src={websiteContentSetting.avatar.url}
-                                        width={1}
-                                        sx={{ aspectRatio: '3/2' }}
-                                    />
-                                </Box>
+                            <Stack flex={1}>
+                                <Image
+                                    src={websiteContentSetting.avatar.file_url}
+                                    containerSx={{ aspectRatio: '3/2' }}
+                                    imageSx={{ width: 1, height: 1 }}
+                                />
                                 <Box bgcolor="black" color="background.default" p={10} fontSize={{ xs: 15, md: 16 }}>
                                     <ProseWrapper>
                                         <Box
@@ -46,14 +44,12 @@ const AboutPage = ({ websiteContentSetting, locale }: PageProps) => {
                                 {t('partners')}
                             </Typography>
                             <Marquee autoFill gradient gradientColor="var(--mui-palette-background-default)">
-                                {websiteContentSetting.partner_logos.map((file) => (
-                                    <Box
-                                        key={file.url}
-                                        component="img"
-                                        src={file.url}
-                                        mx={2}
-                                        width={{ xs: 80, md: 100 }}
-                                        sx={{ aspectRatio: 1, objectFit: 'cover' }}
+                                {websiteContentSetting.partner_logos.map((partnerLogo) => (
+                                    <Image
+                                        key={partnerLogo.id}
+                                        src={partnerLogo.file_url}
+                                        containerSx={{ aspectRatio: 1, width: { xs: 80, md: 100 }, mx: 2 }}
+                                        imageSx={{ width: 1, height: 1, objectFit: 'cover' }}
                                     />
                                 ))}
                             </Marquee>
