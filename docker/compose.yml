@@ -23,6 +23,7 @@ services:
             - ./../../rio-collective-backoffice:/var/www
             - ./php/php.ini:/usr/local/etc/php/php.ini
             - ./../../rio-collective-web/storage/app/private:/var/www/storage/app/private
+            - ./../../rio-collective-web/storage/app/public:/var/www/storage/app/public
             - storage-framework-rio-collective-backoffice:/var/www/storage/framework
             - storage-app-public-rio-collective-backoffice:/var/www/storage/app/public
             - vendor-rio-collective-backoffice:/var/www/vendor
@@ -44,6 +45,7 @@ services:
             - ./../../rio-collective-web:/var/www
             - ./php/php.ini:/usr/local/etc/php/php.ini
             - ./../../rio-collective-web/storage/app/private:/var/www/storage/app/private
+            - ./../../rio-collective-web/storage/app/public:/var/www/storage/app/public
             - storage-framework-rio-collective-web:/var/www/storage/framework
             - storage-app-public-rio-collective-web:/var/www/storage/app/public
             - vendor-rio-collective-web:/var/www/vendor
