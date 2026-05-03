@@ -1,4 +1,4 @@
-import GoogleDriveImage from '@/Components/GoogleDriveImage';
+import Image from '@/Components/Image';
 import Logo from '@/Components/Logo';
 import { NAV_ITEMS } from '@/constants/nav-items';
 import { HomePageProps } from '@/Pages/Home';
@@ -96,11 +96,11 @@ const BannerSection = () => {
                     </Stack>
                 </Box>
 
-                <Swiper loop autoplay slidesPerView={1} modules={[Autoplay]}>
+                <Swiper loop={mediaItemsOnBanner.length > 1} autoplay slidesPerView={1} modules={[Autoplay]}>
                     {mediaItemsOnBanner.map((mediaItem) => (
                         <SwiperSlide key={mediaItem.id}>
-                            <GoogleDriveImage
-                                fileName={mediaItem.file_name}
+                            <Image
+                                src={mediaItem.file_url}
                                 containerSx={{ height: 1, width: 1 }}
                                 imageSx={{ height: 1, width: 1 }}
                             />
