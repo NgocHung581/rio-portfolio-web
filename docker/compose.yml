@@ -5,10 +5,8 @@ networks:
 volumes:
     mysql-database-data:
     storage-framework-rio-collective-backoffice:
-    storage-app-public-rio-collective-backoffice:
     vendor-rio-collective-backoffice:
     storage-framework-rio-collective-web:
-    storage-app-public-rio-collective-web:
     vendor-rio-collective-web:
 
 services:
@@ -25,7 +23,6 @@ services:
             - ./../../rio-collective-web/storage/app/private:/var/www/storage/app/private
             - ./../../rio-collective-web/storage/app/public:/var/www/storage/app/public
             - storage-framework-rio-collective-backoffice:/var/www/storage/framework
-            - storage-app-public-rio-collective-backoffice:/var/www/storage/app/public
             - vendor-rio-collective-backoffice:/var/www/vendor
         networks:
             - rio-collective-network
@@ -47,7 +44,6 @@ services:
             - ./../../rio-collective-web/storage/app/private:/var/www/storage/app/private
             - ./../../rio-collective-web/storage/app/public:/var/www/storage/app/public
             - storage-framework-rio-collective-web:/var/www/storage/framework
-            - storage-app-public-rio-collective-web:/var/www/storage/app/public
             - vendor-rio-collective-web:/var/www/vendor
         networks:
             - rio-collective-network
@@ -73,7 +69,6 @@ services:
             - ./../../rio-collective-web:/var/www
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
             - storage-framework-rio-collective-web:/var/www/storage/framework
-            - storage-app-public-rio-collective-web:/var/www/storage/app/public
             - vendor-rio-collective-web:/var/www/vendor
         networks:
             - rio-collective-network
@@ -99,7 +94,6 @@ services:
             - ./../../rio-collective-backoffice:/var/www
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
             - storage-framework-rio-collective-backoffice:/var/www/storage/framework
-            - storage-app-public-rio-collective-backoffice:/var/www/storage/app/public
             - vendor-rio-collective-backoffice:/var/www/vendor
         networks:
             - rio-collective-network
