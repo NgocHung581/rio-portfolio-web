@@ -20,12 +20,33 @@ export type HomePageProps = PageProps<{
     cinematographyHighlights: Project[];
 }>;
 
+const isIntroPlayed = () => {
+    if (typeof window !== 'undefined') {
+        return Boolean((window as unknown as { __hasPlayedIntro?: boolean }).__hasPlayedIntro);
+    }
+    return false;
+};
+
+const markIntroPlayed = () => {
+    if (typeof window !== 'undefined') {
+        (window as unknown as { __hasPlayedIntro?: boolean }).__hasPlayedIntro = true;
+    }
+};
+
 const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageProps) => {
     const { t } = useTranslation();
     const isFromLgScreen = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
     const [isEnding, setIsEnding] = useState(false);
-    const [finishIntro, setFinishIntro] = useState(false);
+    const [finishIntro, setFinishIntro] = useState(() => isIntroPlayed());
+
+    const handleIntroEnd = () => {
+        setIsEnding(true);
+        setTimeout(() => {
+            markIntroPlayed();
+            setFinishIntro(true);
+        }, 1500);
+    };
 
     if (!finishIntro) {
         return (
@@ -36,10 +57,7 @@ const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageP
                 autoPlay
                 muted
                 playsInline
-                onEnded={() => {
-                    setIsEnding(true);
-                    setTimeout(() => setFinishIntro(true), 1500);
-                }}
+                onEnded={handleIntroEnd}
                 sx={(theme) => ({
                     opacity: isEnding ? 0 : 1,
                     transition: theme.transitions.create('opacity', { duration: 1500 }),
