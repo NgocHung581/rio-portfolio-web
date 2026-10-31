@@ -33,8 +33,8 @@ const ProjectCard = ({ project, mode }: Props) => {
                     <Box onClick={openModal} sx={{ cursor: 'pointer' }}>
                         <Image
                             src={project.thumbnail_file_url}
-                            containerSx={{ aspectRatio: '4/5' }}
-                            imageSx={{ aspectRatio: '4/5', width: 1 }}
+                            containerSx={{ aspectRatio: project.thumbnail_frame }}
+                            imageSx={{ aspectRatio: project.thumbnail_frame, width: 1, objectFit: 'cover' }}
                             skeletonSx={{ ...(mode === 'dark' && { backgroundColor: 'rgba(255, 255, 255, 0.13)' }) }}
                         />
                     </Box>

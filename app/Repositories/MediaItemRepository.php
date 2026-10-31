@@ -22,8 +22,12 @@ class MediaItemRepository extends CommonMediaItemRepository
         return MediaItem::query()
             ->leftJoin('galleries', 'media_items.gallery_id', '=', 'galleries.id')
             ->leftJoin('projects', 'galleries.project_id', '=', 'projects.id')
-            ->where('is_banner', true)
-            ->where('projects.web_visibility', WebVisibility::Public->value)
+            ->where('media_items.is_banner', true)
+            // Media items without a gallery belong to no project (behind the scene), so they are always shown.
+            ->where(function($query): void {
+                $query->whereNull('media_items.gallery_id')
+                    ->orWhere('projects.web_visibility', WebVisibility::Public->value);
+            })
             ->orderByDesc('media_items.id')
             ->select('media_items.*')
             ->get();
