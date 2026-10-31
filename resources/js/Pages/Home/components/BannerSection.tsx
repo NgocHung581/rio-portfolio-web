@@ -2,6 +2,7 @@ import Image from '@/Components/Image';
 import Logo from '@/Components/Logo';
 import { NAV_ITEMS } from '@/constants/nav-items';
 import { HomePageProps } from '@/Pages/Home';
+import { MediaItem } from '@/types/project';
 import { PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import Box from '@mui/material/Box';
@@ -12,6 +13,61 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { useTranslation } from 'react-i18next';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+const VIDEO_FILE_REGEX = /\.(mp4|mov|webm|m4v|ogg)$/i;
+
+/**
+ * A slide of the banner. The banner has a fixed size while media frames vary, so the media always covers the banner,
+ * except portrait media on a wide screen, which is shown whole over a blurred copy of itself instead of being cropped.
+ */
+const BannerMedia = ({ mediaItem }: { mediaItem: Pick<MediaItem, 'file_url' | 'frame'> }) => {
+    const [width, height] = mediaItem.frame.split('/').map(Number);
+    const isPortrait = !!width && !!height && width < height;
+    const isVideo = VIDEO_FILE_REGEX.test(mediaItem.file_url);
+    const objectFit = { xs: 'cover', md: isPortrait ? 'contain' : 'cover' };
+
+    if (isVideo) {
+        return (
+            <Box
+                component="video"
+                src={mediaItem.file_url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                sx={{ width: 1, height: 1, display: 'block', bgcolor: 'black', objectFit }}
+            />
+        );
+    }
+
+    return (
+        <Box position="relative" overflow="hidden" width={1} height={1} bgcolor="black">
+            {isPortrait && (
+                <Box
+                    component="img"
+                    src={mediaItem.file_url}
+                    alt=""
+                    aria-hidden
+                    sx={{
+                        display: { xs: 'none', md: 'block' },
+                        position: 'absolute',
+                        inset: 0,
+                        width: 1,
+                        height: 1,
+                        objectFit: 'cover',
+                        filter: 'blur(40px) brightness(0.6)',
+                        transform: 'scale(1.2)',
+                    }}
+                />
+            )}
+            <Image
+                src={mediaItem.file_url}
+                containerSx={{ position: 'relative', height: 1, width: 1 }}
+                imageSx={{ height: 1, width: 1, objectFit }}
+            />
+        </Box>
+    );
+};
 
 const BannerSection = () => {
     const { t } = useTranslation();
@@ -96,14 +152,15 @@ const BannerSection = () => {
                     </Stack>
                 </Box>
 
-                <Swiper loop={mediaItemsOnBanner.length > 1} autoplay slidesPerView={1} modules={[Autoplay]}>
+                <Swiper
+                    loop={mediaItemsOnBanner.length > 1}
+                    autoplay={{ pauseOnMouseEnter: true }}
+                    slidesPerView={1}
+                    modules={[Autoplay]}
+                >
                     {mediaItemsOnBanner.map((mediaItem) => (
                         <SwiperSlide key={mediaItem.id}>
-                            <Image
-                                src={mediaItem.file_url}
-                                containerSx={{ height: 1, width: 1 }}
-                                imageSx={{ height: 1, width: 1 }}
-                            />
+                            <BannerMedia mediaItem={mediaItem} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
