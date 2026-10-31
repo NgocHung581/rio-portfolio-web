@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type HomePageProps = PageProps<{
@@ -40,6 +40,9 @@ const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageP
     const [isEnding, setIsEnding] = useState(false);
     const [finishIntro, setFinishIntro] = useState(() => isIntroPlayed());
 
+    const introVideoRef = useRef<HTMLVideoElement>(null);
+    const introSrc = isFromLgScreen ? '/videos/intro-horizontal.mov' : '/videos/intro-vertical.mp4';
+
     const handleIntroEnd = () => {
         setIsEnding(true);
         setTimeout(() => {
@@ -48,10 +51,30 @@ const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageP
         }, 1500);
     };
 
+    useEffect(() => {
+        const video = introVideoRef.current;
+
+        if (!video) return;
+
+        // React sets the `muted` property but not the attribute, and Safari only autoplays a video whose attribute is set.
+        video.muted = true;
+        video.setAttribute('muted', '');
+
+        // When the browser still refuses to autoplay (e.g. Low Power Mode), skip the intro instead of showing a play button.
+        video.play().catch(() => {
+            markIntroPlayed();
+            setFinishIntro(true);
+        });
+    }, [introSrc, finishIntro]);
+
     if (!finishIntro) {
         return (
             <Box
+                // A new source on an existing video is not loaded, so the video is created again when it changes.
+                key={introSrc}
+                ref={introVideoRef}
                 component="video"
+                src={introSrc}
                 width="100vw"
                 height="100vh"
                 autoPlay
@@ -62,9 +85,7 @@ const HomePage = ({ photographyHighlights, cinematographyHighlights }: HomePageP
                     opacity: isEnding ? 0 : 1,
                     transition: theme.transitions.create('opacity', { duration: 1500 }),
                 })}
-            >
-                <source src={isFromLgScreen ? '/videos/intro-horizontal.mov' : '/videos/intro-vertical.mp4'} />
-            </Box>
+            />
         );
     }
 
